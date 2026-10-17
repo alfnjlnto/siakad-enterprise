@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Lembar Penilaian DPNA Dosen - SIAKAD Enterprise</title>
+  <title>Daftar Peserta & Nilai Akhir (DPNA) - SIAKAD Enterprise</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
   <style>
@@ -29,14 +29,12 @@
       border: 1.5px solid rgba(255, 255, 255, 0.85);
       box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
     }
-    .input-nilai {
+    .glass-input {
       background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(203, 213, 225, 0.9);
       transition: all 0.2s ease;
-      text-align: center;
-      font-weight: 700;
     }
-    .input-nilai:focus {
+    .glass-input:focus {
       background: #ffffff;
       border-color: #0055A5;
       box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.15);
@@ -51,7 +49,7 @@
 </head>
 <body class="font-sans antialiased text-slate-800 relative min-h-screen overflow-x-hidden select-none bg-slate-100">
 
-  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <!-- Wallpaper Latar Kaca Perpustakaan -->
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
     <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
          src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
@@ -64,7 +62,7 @@
     <aside class="w-[74px] shrink-0 sticky top-6 z-30">
       <div class="glass-sidebar rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
         <div class="flex flex-col items-center gap-6 w-full">
-          <!-- Tombol Home / Kembali ke Portal SSO -->
+          <!-- Tombol Home / Portal SSO -->
           <a href="portal.html" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 hover:text-[#0055A5] hover:bg-white/60 transition cursor-pointer" title="Kembali ke Portal SSO">
             <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
           </a>
@@ -72,81 +70,94 @@
           <div class="w-8 h-[1px] bg-slate-300/60"></div>
           
           <nav class="flex flex-col items-center gap-3 w-full">
-            <a href="dashboard-dosen.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Dashboard Dosen PA">
-              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            <a href="dashboard-dosen.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Dashboard Dosen">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             </a>
-            <a href="nilai-dosen.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="Lembar DPNA Nilai">
-              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h4m-7 4h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <a href="nilai-dosen.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="Input Nilai Perkuliahan">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
             </a>
-            <a href="portal.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Menu Modul">
+            <a href="portal.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Portal SSO">
               <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
             </a>
           </nav>
         </div>
-        <div class="w-11 h-11 rounded-2xl bg-amber-600 text-white font-black text-xs flex items-center justify-center shadow-sm">DSN</div>
+        <div class="w-11 h-11 rounded-2xl bg-indigo-700 text-white font-black text-xs flex items-center justify-center shadow-sm tracking-wider">DSN</div>
       </div>
     </aside>
 
-    <!-- Workspace Lembar DPNA -->
+    <!-- Workspace Lembar Nilai -->
     <main class="flex-1 flex flex-col gap-6 pb-12">
       
-      <!-- Header Banner Profil Dosen -->
+      <!-- Header Banner Penilaian -->
       <header class="glass-acrylic rounded-[28px] p-6 lg:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5">
         <div class="flex items-center gap-4">
-          <div class="w-16 h-16 rounded-2xl bg-amber-600 text-white flex items-center justify-center font-black text-2xl shadow-md shrink-0">
-            DS
+          <div class="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-2xl shadow-md shrink-0">
+            👨‍🏫
           </div>
           <div>
             <div class="flex items-center gap-2.5 flex-wrap">
-              <h1 id="dosenNamaDisplay" class="text-2xl font-black text-slate-900 tracking-tight">Dr. Ir. Hendra Wijaya, M.T.</h1>
-              <span class="px-3 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
-                Dosen Pengampu Utama
+              <h1 class="text-2xl font-black text-slate-900 tracking-tight">Lembar Penilaian Semester (DPNA)</h1>
+              <span class="px-3 py-0.5 rounded-full text-xs font-black bg-indigo-100 text-indigo-800 border border-indigo-300">
+                Mode Dosen Pengampu
               </span>
             </div>
-            <p class="text-xs text-slate-600 font-semibold mt-1 flex items-center gap-2 flex-wrap">
-              <span>NIDN: <strong id="dosenNidnDisplay" class="font-mono text-slate-900">0412087501</strong></span>
-              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
-              <span id="dosenHomebaseDisplay">Homebase: Teknik Informatika</span>
-              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
-              <span>Semester Genap 2024/2025</span>
+            <p class="text-xs text-slate-600 font-semibold mt-1">
+              Input nilai absensi, tugas, UTS, dan UAS. Nilai yang dikunci langsung terbit di KHS mahasiswa.
             </p>
           </div>
         </div>
 
-        <div class="flex items-center gap-3 flex-wrap">
-          <button type="button" onclick="isiOtomatisNilaiSekelas()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer">
-            <span>⚡ Isi Simulasi Nilai Kelas</span>
-          </button>
-          <button type="button" onclick="kunciDanTerbitkanNilai()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold transition flex items-center gap-2 shadow-sm cursor-pointer">
-            <span>💾 Kunci &amp; Terbitkan Nilai</span>
+        <div class="flex items-center gap-3">
+          <button onclick="simpanDanKunciSemuaNilai()" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition flex items-center gap-2 shadow-sm cursor-pointer">
+            <span>🔒 Kunci &amp; Terbitkan Nilai ke KHS</span>
           </button>
         </div>
       </header>
 
-      <!-- Panel Kontrol Pemilihan Mata Kuliah (Dinamis dari Kurikulum BAAK) -->
-      <section class="glass-acrylic rounded-[24px] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-3 flex-wrap flex-1">
-          <label class="text-xs font-extrabold text-slate-600 uppercase tracking-wider">Pilih Mata Kuliah Diampu:</label>
-          <select id="selectRombelKelas" onchange="gantiMataKuliah(this.value)" class="bg-white/95 border border-slate-300 rounded-xl px-4 py-2 text-xs font-black text-[#0055A5] shadow-xs cursor-pointer focus:ring-[#0055A5]">
+      <!-- Panel Filter: Pilih Dosen & Mata Kuliah Per Kelas -->
+      <section class="glass-acrylic rounded-[24px] p-5 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div class="md:col-span-5">
+          <label class="block text-[11px] font-extrabold text-slate-500 uppercase mb-1">Dosen Pengampu Aktif:</label>
+          <select id="selectDosenAktif" onchange="muatDaftarMatkulDosen()" class="w-full rounded-xl border-slate-300 text-xs font-bold text-slate-800 focus:ring-[#0055A5] bg-white/90">
           </select>
         </div>
 
-        <div class="flex items-center gap-2">
-          <span id="badgeStatusKunci" class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-100 text-[#0055A5] border border-blue-200">
-            Status: Mode Input Terbuka
-          </span>
+        <div class="md:col-span-7">
+          <label class="block text-[11px] font-extrabold text-slate-500 uppercase mb-1">Mata Kuliah &amp; Rombel Kelas:</label>
+          <select id="selectMatkulKelas" onchange="muatPesertaKelas()" class="w-full rounded-xl border-slate-300 text-xs font-black text-[#0055A5] focus:ring-[#0055A5] bg-white/90">
+          </select>
         </div>
       </section>
 
-      <!-- Lembar Tabel DPNA -->
+      <!-- Ringkasan Info Kelas Terpilih -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="glass-acrylic rounded-[20px] p-4 flex flex-col justify-between">
+          <span class="text-[10px] font-extrabold text-slate-500 uppercase">Jadwal &amp; Ruangan</span>
+          <div id="infoMatkulJadwal" class="text-sm font-bold text-slate-900 mt-1">-</div>
+        </div>
+        <div class="glass-acrylic rounded-[20px] p-4 flex flex-col justify-between">
+          <span class="text-[10px] font-extrabold text-slate-500 uppercase">Bobot SKS &amp; Sifat</span>
+          <div id="infoMatkulSks" class="text-sm font-bold text-[#0055A5] mt-1">-</div>
+        </div>
+        <div class="glass-acrylic rounded-[20px] p-4 flex flex-col justify-between">
+          <span class="text-[10px] font-extrabold text-slate-500 uppercase">Total Peserta Terdaftar</span>
+          <div id="infoTotalPeserta" class="text-sm font-black text-indigo-700 mt-1">0 Mahasiswa</div>
+        </div>
+        <div class="glass-acrylic rounded-[20px] p-4 flex flex-col justify-between">
+          <span class="text-[10px] font-extrabold text-slate-500 uppercase">Standar Kelulusan</span>
+          <div class="text-xs font-bold text-emerald-700 mt-1">≥ 55 (Grade C) • LULUS</div>
+        </div>
+      </section>
+
+      <!-- Tabel Input Nilai Peserta Kuliah -->
       <section class="glass-acrylic rounded-[28px] p-6 space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/60 pb-4">
+        <div class="flex items-center justify-between border-b border-white/60 pb-3">
           <div>
-            <h3 id="labelNamaMatkul" class="text-base font-black text-slate-900 tracking-tight">Memuat Mata Kuliah...</h3>
-            <p id="labelDetailKelas" class="text-xs text-slate-500 font-semibold mt-0.5">Bobot: 10% Presensi • 20% Tugas • 30% UTS • 40% UAS</p>
+            <h3 class="text-base font-extrabold text-slate-900 tracking-tight">Daftar Mahasiswa &amp; Lembar Penilaian</h3>
+            <p class="text-xs text-slate-500 font-semibold mt-0.5">Komposisi: Absensi (10%), Tugas (20%), UTS (35%), UAS (35%)</p>
           </div>
-          <span id="labelJumlahMhs" class="text-xs font-bold text-slate-600 bg-white/70 px-3 py-1 rounded-xl border border-white">
-            0 Mahasiswa Terdaftar
+          <span id="badgeStatusTerbit" class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-xl border border-slate-200">
+            Draft Penilaian
           </span>
         </div>
 
@@ -154,19 +165,19 @@
           <table class="w-full text-left border-collapse text-xs">
             <thead>
               <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
-                <th class="py-3 px-3">No</th>
                 <th class="py-3 px-3">NIM</th>
                 <th class="py-3 px-4">Nama Mahasiswa</th>
-                <th class="py-3 px-2 text-center w-24">Presensi (10%)</th>
-                <th class="py-3 px-2 text-center w-24">Tugas (20%)</th>
-                <th class="py-3 px-2 text-center w-24">UTS (30%)</th>
-                <th class="py-3 px-2 text-center w-24">UAS (40%)</th>
-                <th class="py-3 px-3 text-center w-24">Nilai Akhir</th>
-                <th class="py-3 px-2 text-center w-16">Grade</th>
-                <th class="py-3 px-3 text-center w-28">Status</th>
+                <th class="py-3 px-2 text-center">Kelas</th>
+                <th class="py-3 px-2 text-center w-20">Absen (10%)</th>
+                <th class="py-3 px-2 text-center w-20">Tugas (20%)</th>
+                <th class="py-3 px-2 text-center w-20">UTS (35%)</th>
+                <th class="py-3 px-2 text-center w-20">UAS (35%)</th>
+                <th class="py-3 px-2 text-center">Nilai Akhir</th>
+                <th class="py-3 px-2 text-center">Grade</th>
+                <th class="py-3 px-3 text-center">Status</th>
               </tr>
             </thead>
-            <tbody id="tbodyDpna" class="divide-y divide-white/50 font-medium text-slate-700">
+            <tbody id="tbodyPesertaNilai" class="divide-y divide-white/50 font-medium text-slate-700">
             </tbody>
           </table>
         </div>
@@ -178,258 +189,239 @@
   <!-- TOAST NOTIFIKASI -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden px-4 py-3 rounded-2xl glass-acrylic border border-white shadow-2xl flex items-center gap-3 text-xs font-bold text-slate-900 animate-in slide-in-from-bottom-5">
     <span class="text-emerald-600 text-sm">✓</span>
-    <span id="toastMsg">Nilai kelas berhasil dikunci!</span>
+    <span id="toastMsg">Nilai berhasil disimpan!</span>
   </div>
 
-  <!-- SCRIPT ENGINE PENILAIAN DPNA REAL-TIME -->
+  <!-- JAVASCRIPT ENGINE DPNA DOSEN -->
   <script>
-    const STORAGE_MHS = 'siakad_master_mahasiswa_db';
+    const STORAGE_DOSEN = 'siakad_master_dosen_db';
     const STORAGE_MATKUL = 'siakad_master_matkul_db';
-    const STORAGE_NILAI = 'siakad_db_nilai';
+    const STORAGE_MHS = 'siakad_master_mahasiswa_db';
+    const STORAGE_DB_NILAI = 'siakad_db_nilai';
     const STORAGE_ENROLLED = 'siakad_krs_enrolled_codes';
-    const STORAGE_USER = 'siakad_active_user';
 
-    let matkulTerpilih = null;
-    let daftarMahasiswaKelas = [];
+    let listDosen = [];
+    let listMatkul = [];
+    let listMhs = [];
+    let currentMatkulObj = null;
 
-    // Konversi Grade Lengkap (Standar Dikti: A s.d. E)
-    function evaluasiGrade(angka) {
-      if (angka >= 85) return { grade: 'A', bobot: 4.0, status: 'LULUS', badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
-      if (angka >= 80) return { grade: 'A-', bobot: 3.7, status: 'LULUS', badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
-      if (angka >= 75) return { grade: 'B+', bobot: 3.3, status: 'LULUS', badgeColor: 'bg-blue-100 text-[#0055A5] border-blue-300' };
-      if (angka >= 70) return { grade: 'B', bobot: 3.0, status: 'LULUS', badgeColor: 'bg-blue-100 text-[#0055A5] border-blue-300' };
-      if (angka >= 65) return { grade: 'B-', bobot: 2.7, status: 'LULUS', badgeColor: 'bg-blue-100 text-[#0055A5] border-blue-300' };
-      if (angka >= 60) return { grade: 'C+', bobot: 2.3, status: 'LULUS', badgeColor: 'bg-amber-100 text-amber-800 border-amber-300' };
-      if (angka >= 55) return { grade: 'C', bobot: 2.0, status: 'LULUS', badgeColor: 'bg-amber-100 text-amber-800 border-amber-300' };
-      if (angka >= 40) return { grade: 'D', bobot: 1.0, status: 'TIDAK LULUS', badgeColor: 'bg-rose-100 text-rose-800 border-rose-300' };
-      return { grade: 'E', bobot: 0.0, status: 'TIDAK LULUS', badgeColor: 'bg-rose-100 text-rose-800 border-rose-300' };
-    }
+    function initHalamanNilai() {
+      listDosen = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+      listMatkul = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
+      listMhs = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
 
-    function hitungAkhir(hadir, tugas, uts, uas) {
-      return (hadir * 0.10) + (tugas * 0.20) + (uts * 0.30) + (uas * 0.40);
-    }
-
-    function inisialisasiHalaman() {
-      // 1. Tampilkan Profil Dosen
-      try {
-        const u = JSON.parse(localStorage.getItem(STORAGE_USER) || 'null');
-        if (u && u.role === 'dosen') {
-          if (u.nama) document.getElementById('dosenNamaDisplay').innerText = u.nama;
-          if (u.nidn) document.getElementById('dosenNidnDisplay').innerText = u.nidn;
-          if (u.homebase) document.getElementById('dosenHomebaseDisplay').innerText = `Homebase: ${u.homebase}`;
-        }
-      } catch (e) { console.error(e); }
-
-      // 2. Muat Daftar Mata Kuliah Langsung dari Master Kurikulum BAAK
-      const listMatkul = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
-      const select = document.getElementById('selectRombelKelas');
-      select.innerHTML = '';
-
-      if (listMatkul.length === 0) {
-        select.innerHTML = '<option value="">Belum ada mata kuliah dibuka oleh BAAK</option>';
-        return;
-      }
-
-      listMatkul.forEach((m, idx) => {
+      // Isi Dropdown Dosen
+      const selDosen = document.getElementById('selectDosenAktif');
+      selDosen.innerHTML = '';
+      listDosen.forEach(d => {
         const opt = document.createElement('option');
-        opt.value = m.kode;
-        opt.innerText = `[${m.kode}] ${m.nama} (${m.sks} SKS) - ${m.dosen}`;
-        if (idx === 0) opt.selected = true;
-        select.appendChild(opt);
+        opt.value = d.nama;
+        opt.innerText = `${d.nama} (${d.homebase})`;
+        selDosen.appendChild(opt);
       });
 
-      gantiMataKuliah(listMatkul[0].kode);
+      muatDaftarMatkulDosen();
     }
 
-    // Dipanggil saat dosen memilih mata kuliah di dropdown
-    function gantiMataKuliah(kodeMk) {
-      const listMatkul = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
-      matkulTerpilih = listMatkul.find(m => m.kode === kodeMk);
-      if (!matkulTerpilih) return;
+    function muatDaftarMatkulDosen() {
+      const selectedDosenNama = document.getElementById('selectDosenAktif').value;
+      const selMatkul = document.getElementById('selectMatkulKelas');
+      selMatkul.innerHTML = '';
 
-      document.getElementById('labelNamaMatkul').innerText = `${matkulTerpilih.nama} (${matkulTerpilih.sks} SKS) • [${matkulTerpilih.kode}]`;
-      document.getElementById('labelDetailKelas').innerText = `Pengampu: ${matkulTerpilih.dosen} • Jadwal: ${matkulTerpilih.jadwal || '-'} (${matkulTerpilih.ruang || 'Lab'})`;
+      // Cari matkul yang diampu oleh dosen ini
+      const matkulDosen = listMatkul.filter(m => m.dosen === selectedDosenNama);
 
-      // 3. JEMBATAN KRS: Ambil HANYA mahasiswa yang mengambil kode MK ini di KRS
-      const semuaMhs = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
-      
-      daftarMahasiswaKelas = semuaMhs.filter(m => {
-        const enrolledCodes = JSON.parse(localStorage.getItem(`${STORAGE_ENROLLED}_${m.nim}`) || '[]');
-        // Fallback bawaan Ahmad Fauzi jika belum disentuh
-        if (m.nim === '220101001' && enrolledCodes.length === 0 && kodeMk === 'IF2104') return true;
-        return enrolledCodes.includes(kodeMk);
+      // Jika dosen belum punya matkul khusus, tampilkan semua matkul agar tidak kosong
+      const targetMatkul = matkulDosen.length > 0 ? matkulDosen : listMatkul;
+
+      targetMatkul.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = `${m.kode}__${m.kelas || 'Kelas A'}`;
+        opt.innerText = `${m.kode} - ${m.nama} (${m.kelas || 'Kelas A'})`;
+        selMatkul.appendChild(opt);
       });
 
-      // Cek apakah nilai kelas ini sudah dikunci sebelumnya
-      const riwayatNilai = JSON.parse(localStorage.getItem(STORAGE_NILAI) || '[]');
-      const sudahTerkunci = daftarMahasiswaKelas.length > 0 && daftarMahasiswaKelas.some(m => {
-        return riwayatNilai.some(n => n.nim === m.nim && n.kode === matkulTerpilih.kode);
-      });
+      muatPesertaKelas();
+    }
 
-      const badgeKunci = document.getElementById('badgeStatusKunci');
-      if (sudahTerkunci) {
-        badgeKunci.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300';
-        badgeKunci.innerText = '✓ Status: Nilai Sah & Terkunci Permanen';
-      } else {
-        badgeKunci.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-blue-100 text-[#0055A5] border border-blue-200';
-        badgeKunci.innerText = 'Status: Mode Input Terbuka';
+    function muatPesertaKelas() {
+      const selVal = document.getElementById('selectMatkulKelas').value;
+      if (!selVal) return;
+
+      const [kodeMk, kelasMk] = selVal.split('__');
+      currentMatkulObj = listMatkul.find(m => m.kode === kodeMk && (m.kelas || 'Kelas A') === kelasMk) || listMatkul.find(m => m.kode === kodeMk);
+
+      if (currentMatkulObj) {
+        document.getElementById('infoMatkulJadwal').innerText = `${currentMatkulObj.jadwal || '-'} (${currentMatkulObj.ruang || 'Lab'})`;
+        document.getElementById('infoMatkulSks').innerText = `${currentMatkulObj.sks} SKS • ${currentMatkulObj.sifat || 'Wajib'}`;
       }
 
-      renderTabelDpna(riwayatNilai);
-    }
+      // Ambil Mahasiswa yang mengambil mata kuliah ini dan sesuai rombel kelasnya
+      const pesertaKelas = listMhs.filter(m => {
+        const enrolledCodes = JSON.parse(localStorage.getItem(`${STORAGE_ENROLLED}_${m.nim}`) || '[]');
+        const ambilMatkulIni = enrolledCodes.includes(kodeMk);
+        const cocokKelas = (m.kelas || 'Kelas A') === kelasMk;
+        return ambilMatkulIni && cocokKelas;
+      });
 
-    function renderTabelDpna(riwayatNilai = []) {
-      const tbody = document.getElementById('tbodyDpna');
+      document.getElementById('infoTotalPeserta').innerText = `${pesertaKelas.length} Mahasiswa`;
+
+      // Ambil database nilai tersimpan
+      const dbNilai = JSON.parse(localStorage.getItem(STORAGE_DB_NILAI) || '[]');
+
+      const tbody = document.getElementById('tbodyPesertaNilai');
       tbody.innerHTML = '';
-      document.getElementById('labelJumlahMhs').innerText = `${daftarMahasiswaKelas.length} Mahasiswa Mengambil Kelas`;
 
-      if (daftarMahasiswaKelas.length === 0) {
+      if (pesertaKelas.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" class="py-12 text-center text-slate-400">
-              <div class="text-3xl mb-1.5">📭</div>
-              <h4 class="text-sm font-extrabold text-slate-800">Belum Ada Mahasiswa di Kelas Ini</h4>
-              <p class="text-xs text-slate-500 max-w-sm mx-auto mt-0.5">
-                Belum ada mahasiswa yang mengambil mata kuliah [${matkulTerpilih.kode}] di menu KRS Online.
-              </p>
+            <td colspan="10" class="py-10 text-center text-slate-400">
+              <div class="text-3xl mb-1">📭</div>
+              <p class="font-bold text-slate-700">Belum Ada Peserta di ${kelasMk}</p>
+              <p class="text-[11px] text-slate-500">Mahasiswa yang terdaftar di ${kelasMk} belum mengambil mata kuliah ini di halaman KRS.</p>
             </td>
           </tr>
         `;
         return;
       }
 
-      daftarMahasiswaKelas.forEach((m, idx) => {
-        const dataNilai = riwayatNilai.find(n => n.nim === m.nim && n.kode === matkulTerpilih.kode);
+      pesertaKelas.forEach(m => {
+        // Cek apakah mahasiswa ini sudah punya riwayat nilai tersimpan
+        const nilaiRecord = dbNilai.find(n => n.nim === m.nim && n.kode === kodeMk && (n.kelas || 'Kelas A') === kelasMk);
 
-        const valHadir = dataNilai ? dataNilai.presensi : 90;
-        const valTugas = dataNilai ? dataNilai.tugas : 85;
-        const valUts = dataNilai ? dataNilai.uts : 80;
-        const valUas = dataNilai ? dataNilai.uas : 85;
-
-        const akhir = hitungAkhir(valHadir, valTugas, valUts, valUas);
-        const hasil = evaluasiGrade(akhir);
+        const absen = nilaiRecord ? (nilaiRecord.absen ?? 85) : 85;
+        const tugas = nilaiRecord ? (nilaiRecord.tugas ?? 80) : 80;
+        const uts = nilaiRecord ? (nilaiRecord.uts ?? 75) : 75;
+        const uas = nilaiRecord ? (nilaiRecord.uas ?? 80) : 80;
 
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-white/40 transition';
-        tr.id = `row-${m.nim}`;
-
+        tr.id = `row-mhs-${m.nim}`;
         tr.innerHTML = `
-          <td class="py-3 px-3 font-bold text-slate-500">${idx + 1}</td>
           <td class="py-3 px-3 font-mono font-bold text-[#0055A5]">${m.nim}</td>
           <td class="py-3 px-4 font-bold text-slate-900">${m.nama}</td>
-          <td class="py-2 px-2 text-center">
-            <input type="number" min="0" max="100" value="${valHadir}" oninput="hitungBaris('${m.nim}')" id="hadir-${m.nim}" class="input-nilai w-16 py-1 rounded-lg text-xs">
+          <td class="py-3 px-2 text-center">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">${m.kelas || 'Kelas A'}</span>
           </td>
-          <td class="py-2 px-2 text-center">
-            <input type="number" min="0" max="100" value="${valTugas}" oninput="hitungBaris('${m.nim}')" id="tugas-${m.nim}" class="input-nilai w-16 py-1 rounded-lg text-xs">
+          <td class="py-3 px-2 text-center">
+            <input type="number" min="0" max="100" value="${absen}" oninput="hitungRowNilai('${m.nim}')" class="input-absen-${m.nim} w-16 text-center rounded-lg border-slate-300 py-1 text-xs font-bold focus:ring-[#0055A5]">
           </td>
-          <td class="py-2 px-2 text-center">
-            <input type="number" min="0" max="100" value="${valUts}" oninput="hitungBaris('${m.nim}')" id="uts-${m.nim}" class="input-nilai w-16 py-1 rounded-lg text-xs">
+          <td class="py-3 px-2 text-center">
+            <input type="number" min="0" max="100" value="${tugas}" oninput="hitungRowNilai('${m.nim}')" class="input-tugas-${m.nim} w-16 text-center rounded-lg border-slate-300 py-1 text-xs font-bold focus:ring-[#0055A5]">
           </td>
-          <td class="py-2 px-2 text-center">
-            <input type="number" min="0" max="100" value="${valUas}" oninput="hitungBaris('${m.nim}')" id="uas-${m.nim}" class="input-nilai w-16 py-1 rounded-lg text-xs">
+          <td class="py-3 px-2 text-center">
+            <input type="number" min="0" max="100" value="${uts}" oninput="hitungRowNilai('${m.nim}')" class="input-uts-${m.nim} w-16 text-center rounded-lg border-slate-300 py-1 text-xs font-bold focus:ring-[#0055A5]">
           </td>
-          <td class="py-3 px-3 text-center font-mono font-black text-slate-900" id="akhir-${m.nim}">${akhir.toFixed(1)}</td>
-          <td class="py-3 px-2 text-center font-black" id="grade-${m.nim}">
-            <span class="px-2 py-0.5 rounded-lg text-xs font-black border ${hasil.badgeColor}">${hasil.grade}</span>
+          <td class="py-3 px-2 text-center">
+            <input type="number" min="0" max="100" value="${uas}" oninput="hitungRowNilai('${m.nim}')" class="input-uas-${m.nim} w-16 text-center rounded-lg border-slate-300 py-1 text-xs font-bold focus:ring-[#0055A5]">
           </td>
-          <td class="py-3 px-3 text-center font-bold text-[10px]" id="status-${m.nim}">
-            <span class="px-2.5 py-0.5 rounded-full border ${hasil.status === 'LULUS' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-rose-100 text-rose-800 border-rose-300'}">
-              ${hasil.status}
-            </span>
-          </td>
+          <td class="py-3 px-2 text-center font-black text-slate-900 text-sm" id="cell-akhir-${m.nim}">0</td>
+          <td class="py-3 px-2 text-center font-black text-sm" id="cell-grade-${m.nim}">-</td>
+          <td class="py-3 px-3 text-center" id="cell-status-${m.nim}">-</td>
         `;
         tbody.appendChild(tr);
+
+        hitungRowNilai(m.nim);
       });
     }
 
-    function hitungBaris(nim) {
-      const h = parseFloat(document.getElementById(`hadir-${nim}`).value) || 0;
-      const t = parseFloat(document.getElementById(`tugas-${nim}`).value) || 0;
-      const u = parseFloat(document.getElementById(`uts-${nim}`).value) || 0;
-      const a = parseFloat(document.getElementById(`uas-${nim}`).value) || 0;
+    function hitungRowNilai(nim) {
+      const absen = parseFloat(document.querySelector(`.input-absen-${nim}`).value) || 0;
+      const tugas = parseFloat(document.querySelector(`.input-tugas-${nim}`).value) || 0;
+      const uts = parseFloat(document.querySelector(`.input-uts-${nim}`).value) || 0;
+      const uas = parseFloat(document.querySelector(`.input-uas-${nim}`).value) || 0;
 
-      const akhir = hitungAkhir(h, t, u, a);
-      const hasil = evaluasiGrade(akhir);
+      // Rumus: 10% Absen + 20% Tugas + 35% UTS + 35% UAS
+      const nilaiAkhir = Math.round((absen * 0.1) + (tugas * 0.2) + (uts * 0.35) + (uas * 0.35));
 
-      document.getElementById(`akhir-${nim}`).innerText = akhir.toFixed(1);
-      document.getElementById(`grade-${nim}`).innerHTML = `<span class="px-2 py-0.5 rounded-lg text-xs font-black border ${hasil.badgeColor}">${hasil.grade}</span>`;
-      
-      const badgeStatus = hasil.status === 'LULUS' 
-        ? `<span class="px-2.5 py-0.5 rounded-full border bg-emerald-100 text-emerald-800 border-emerald-300">LULUS</span>`
-        : `<span class="px-2.5 py-0.5 rounded-full border bg-rose-100 text-rose-800 border-rose-300">TIDAK LULUS</span>`;
-      
-      document.getElementById(`status-${nim}`).innerHTML = badgeStatus;
+      let grade = 'E';
+      let bobot = 0.0;
+      let status = 'TIDAK LULUS';
+
+      if (nilaiAkhir >= 85) { grade = 'A'; bobot = 4.0; status = 'LULUS'; }
+      else if (nilaiAkhir >= 75) { grade = 'B+'; bobot = 3.5; status = 'LULUS'; }
+      else if (nilaiAkhir >= 68) { grade = 'B'; bobot = 3.0; status = 'LULUS'; }
+      else if (nilaiAkhir >= 60) { grade = 'C+'; bobot = 2.5; status = 'LULUS'; }
+      else if (nilaiAkhir >= 55) { grade = 'C'; bobot = 2.0; status = 'LULUS'; }
+      else if (nilaiAkhir >= 40) { grade = 'D'; bobot = 1.0; status = 'TIDAK LULUS'; }
+      else { grade = 'E'; bobot = 0.0; status = 'TIDAK LULUS'; }
+
+      document.getElementById(`cell-akhir-${nim}`).innerText = nilaiAkhir;
+
+      const cellGrade = document.getElementById(`cell-grade-${nim}`);
+      cellGrade.innerText = grade;
+      cellGrade.className = `py-3 px-2 text-center font-black text-sm ${status === 'LULUS' ? 'text-emerald-600' : 'text-rose-600'}`;
+
+      const cellStatus = document.getElementById(`cell-status-${nim}`);
+      if (status === 'LULUS') {
+        cellStatus.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">✓ LULUS</span>`;
+      } else {
+        cellStatus.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">⚠️ TIDAK LULUS</span>`;
+      }
     }
 
-    function isiOtomatisNilaiSekelas() {
-      if (daftarMahasiswaKelas.length === 0) return;
+    function simpanDanKunciSemuaNilai() {
+      if (!currentMatkulObj) return;
 
-      daftarMahasiswaKelas.forEach((m, idx) => {
-        let h = 100, t = 85, u = 80, a = 85;
+      const selVal = document.getElementById('selectMatkulKelas').value;
+      const [kodeMk, kelasMk] = selVal.split('__');
 
-        // Berikan contoh variasi nilai: siswa terakhir dibuat dapat nilai D/E untuk pengujian
-        if (idx === daftarMahasiswaKelas.length - 1 && daftarMahasiswaKelas.length > 1) {
-          h = 60; t = 45; u = 35; a = 30; // Skor akhir ~38 (Grade E)
-        } else {
-          t = 75 + Math.floor(Math.random() * 20);
-          u = 70 + Math.floor(Math.random() * 25);
-          a = 75 + Math.floor(Math.random() * 20);
-        }
+      let dbNilai = JSON.parse(localStorage.getItem(STORAGE_DB_NILAI) || '[]');
 
-        document.getElementById(`hadir-${m.nim}`).value = h;
-        document.getElementById(`tugas-${m.nim}`).value = t;
-        document.getElementById(`uts-${m.nim}`).value = u;
-        document.getElementById(`uas-${m.nim}`).value = a;
+      // Hapus data lama untuk mata kuliah dan rombel ini agar terbarui
+      dbNilai = dbNilai.filter(n => !(n.kode === kodeMk && (n.kelas || 'Kelas A') === kelasMk));
 
-        hitungBaris(m.nim);
-      });
+      // Cari baris mahasiswa di tabel
+      const rows = document.querySelectorAll('#tbodyPesertaNilai tr[id^="row-mhs-"]');
+      if (rows.length === 0) {
+        alert('Tidak ada mahasiswa untuk dinilai pada kelas ini.');
+        return;
+      }
 
-      tampilkanToast('⚡ Nilai simulasi kelas berhasil dimuat!');
-    }
+      rows.forEach(tr => {
+        const nim = tr.id.replace('row-mhs-', '');
+        const mhs = listMhs.find(m => m.nim === nim);
 
-    function kunciDanTerbitkanNilai() {
-      if (!matkulTerpilih || daftarMahasiswaKelas.length === 0) return;
+        const absen = parseFloat(document.querySelector(`.input-absen-${nim}`).value) || 0;
+        const tugas = parseFloat(document.querySelector(`.input-tugas-${nim}`).value) || 0;
+        const uts = parseFloat(document.querySelector(`.input-uts-${nim}`).value) || 0;
+        const uas = parseFloat(document.querySelector(`.input-uas-${nim}`).value) || 0;
+        const akhir = parseFloat(document.getElementById(`cell-akhir-${nim}`).innerText) || 0;
+        const grade = document.getElementById(`cell-grade-${nim}`).innerText;
 
-      let databaseNilai = JSON.parse(localStorage.getItem(STORAGE_NILAI) || '[]');
+        let bobot = 0.0;
+        if (grade === 'A') bobot = 4.0;
+        else if (grade === 'B+') bobot = 3.5;
+        else if (grade === 'B') bobot = 3.0;
+        else if (grade === 'C+') bobot = 2.5;
+        else if (grade === 'C') bobot = 2.0;
+        else if (grade === 'D') bobot = 1.0;
+        else bobot = 0.0;
 
-      daftarMahasiswaKelas.forEach(m => {
-        const h = parseFloat(document.getElementById(`hadir-${m.nim}`).value) || 0;
-        const t = parseFloat(document.getElementById(`tugas-${m.nim}`).value) || 0;
-        const u = parseFloat(document.getElementById(`uts-${m.nim}`).value) || 0;
-        const a = parseFloat(document.getElementById(`uas-${m.nim}`).value) || 0;
-        
-        const skorAkhir = hitungAkhir(h, t, u, a);
-        const hasil = evaluasiGrade(skorAkhir);
-
-        // Hapus nilai lama pada matkul ini jika pernah ada
-        databaseNilai = databaseNilai.filter(n => !(n.nim === m.nim && n.kode === matkulTerpilih.kode));
-
-        databaseNilai.push({
-          nim: m.nim,
-          nama: m.nama,
-          kode: matkulTerpilih.kode,
-          matkul: matkulTerpilih.nama,
-          sks: Number(matkulTerpilih.sks) || 3,
-          semester: Number(matkulTerpilih.semester) || 1,
-          presensi: h,
-          tugas: t,
-          uts: u,
-          uas: a,
-          nilaiAngka: skorAkhir.toFixed(1),
-          nilaiHuruf: hasil.grade,
-          bobot: hasil.bobot,
-          statusLulus: hasil.status
+        dbNilai.push({
+          nim: nim,
+          nama: mhs ? mhs.nama : 'Mahasiswa',
+          kode: kodeMk,
+          namaMatkul: currentMatkulObj.nama,
+          kelas: kelasMk,
+          sks: Number(currentMatkulObj.sks) || 3,
+          absen: absen,
+          tugas: tugas,
+          uts: uts,
+          uas: uas,
+          nilaiAkhir: akhir,
+          grade: grade,
+          bobot: bobot,
+          status: (akhir >= 55) ? 'LULUS' : 'TIDAK LULUS',
+          terbit: true
         });
       });
 
-      localStorage.setItem(STORAGE_NILAI, JSON.stringify(databaseNilai));
+      localStorage.setItem(STORAGE_DB_NILAI, JSON.stringify(dbNilai));
+      tampilkanToast(`✓ Seluruh nilai ${currentMatkulObj.nama} (${kelasMk}) resmi diterbitkan ke KHS!`);
 
-      const badgeKunci = document.getElementById('badgeStatusKunci');
-      badgeKunci.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300';
-      badgeKunci.innerText = '✓ Status: Nilai Sah & Terkunci Permanen';
-
-      tampilkanToast(`✓ Seluruh nilai [${matkulTerpilih.kode}] ${matkulTerpilih.nama} berhasil diterbitkan ke KHS!`);
+      document.getElementById('badgeStatusTerbit').className = 'text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-xl border border-emerald-300';
+      document.getElementById('badgeStatusTerbit').innerText = '✓ Nilai Resmi Diterbitkan';
     }
 
     function tampilkanToast(msg) {
@@ -439,7 +431,7 @@
       setTimeout(() => toast.classList.add('hidden'), 3500);
     }
 
-    document.addEventListener('DOMContentLoaded', inisialisasiHalaman);
+    document.addEventListener('DOMContentLoaded', initHalamanNilai);
   </script>
 </body>
 </html>

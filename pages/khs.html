@@ -223,6 +223,20 @@
       ]
     };
 
+    function hitungBobotDariGrade(g) {
+      if (!g) return 0.0;
+      const upper = String(g).trim().toUpperCase();
+      if (upper === 'A') return 4.0;
+      if (upper === 'A-') return 3.7;
+      if (upper === 'B+') return 3.5;
+      if (upper === 'B') return 3.0;
+      if (upper === 'B-') return 2.7;
+      if (upper === 'C+') return 2.5;
+      if (upper === 'C') return 2.0;
+      if (upper === 'D') return 1.0;
+      return 0.0;
+    }
+
     function getActiveUser() {
       try {
         const raw = localStorage.getItem(STORAGE_ACTIVE_USER);
@@ -289,10 +303,25 @@
       const masterMatkul = JSON.parse(localStorage.getItem(STORAGE_MASTER_MATKUL) || '[]');
       const dbNilai = JSON.parse(localStorage.getItem(STORAGE_NILAI) || '[]');
 
-      // FILTER ANTI MATKUL SAMPAH: Hanya tampilkan mata kuliah yang sah ada di kurikulum BAAK
-      const validEnrolled = enrolledCodes
-        .map(kode => masterMatkul.find(m => m.kode === kode))
-        .filter(m => m !== undefined);
+      // Kumpulkan kode matkul dari KRS mahasiswa maupun dari lembar nilai dosen
+      const gradedCodes = dbNilai.filter(n => n.nim === activeUser.nim).map(n => n.kode);
+      const allStudentCodes = [...new Set([...enrolledCodes, ...gradedCodes])];
+
+      const validEnrolled = allStudentCodes
+        .map(kode => {
+          const found = masterMatkul.find(m => m.kode === kode);
+          if (found) return found;
+          const fromNilai = dbNilai.find(n => n.nim === activeUser.nim && n.kode === kode);
+          if (fromNilai) {
+            return {
+              kode: kode,
+              nama: fromNilai.namaMatkul || fromNilai.matkul || 'Mata Kuliah',
+              sks: fromNilai.sks || 3
+            };
+          }
+          return null;
+        })
+        .filter(m => m !== null);
 
       if (validEnrolled.length === 0) {
         document.getElementById('ringkasSks').innerText = '0 SKS';
@@ -329,7 +358,7 @@
 
         const nilaiDosen = dbNilai.find(n => n.nim === activeUser.nim && (n.kode === kode || n.matkul === matkulInfo.nama));
 
-        let nilaiAngka = "0.0";
+        let nilaiAngka = "-";
         let nilaiHuruf = "-";
         let bobot = 0.0;
         let mutu = 0.0;
@@ -338,13 +367,22 @@
 
         if (nilaiDosen) {
           countDinilai++;
-          nilaiAngka = String(nilaiDosen.nilaiAngka);
-          nilaiHuruf = nilaiDosen.nilaiHuruf;
-          bobot = Number(nilaiDosen.bobot) || 0;
+
+          // Mendukung nilaiAkhir, nilaiAngka, atau angka dari dosen
+          const rawAngka = nilaiDosen.nilaiAkhir ?? nilaiDosen.nilaiAngka ?? nilaiDosen.nilai ?? nilaiDosen.angka;
+          nilaiAngka = (rawAngka !== undefined && rawAngka !== null && String(rawAngka) !== 'undefined') ? String(rawAngka) : "0.0";
+
+          // Mendukung grade, nilaiHuruf, atau huruf
+          const rawHuruf = nilaiDosen.grade ?? nilaiDosen.nilaiHuruf ?? nilaiDosen.huruf;
+          nilaiHuruf = (rawHuruf !== undefined && rawHuruf !== null && String(rawHuruf) !== 'undefined') ? String(rawHuruf) : "-";
+
+          bobot = Number(nilaiDosen.bobot !== undefined ? nilaiDosen.bobot : hitungBobotDariGrade(nilaiHuruf)) || 0;
           mutu = sksMatkul * bobot;
           totalMutu += mutu;
 
-          if (nilaiDosen.statusLulus === 'LULUS') {
+          // Kelulusan standar (Grade C ke atas / bobot >= 2.0)
+          const isLulus = (nilaiDosen.status === 'LULUS' || nilaiDosen.statusLulus === 'LULUS' || bobot >= 2.0);
+          if (isLulus) {
             keterangan = "LULUS";
             badgeKet = "bg-emerald-100 text-emerald-800 border-emerald-300";
           } else {
@@ -352,6 +390,10 @@
             badgeKet = "bg-rose-100 text-rose-800 border-rose-300";
           }
         }
+
+        const badgeGradeColor = nilaiDosen 
+          ? (keterangan === 'LULUS' ? 'bg-blue-100 text-[#0055A5]' : 'bg-rose-100 text-rose-700') 
+          : 'bg-slate-100 text-slate-400';
 
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-white/40 transition';
@@ -362,7 +404,7 @@
           <td class="py-3.5 px-2 text-center font-bold text-slate-700">${sksMatkul}</td>
           <td class="py-3.5 px-3 text-center font-mono font-bold ${nilaiDosen ? 'text-slate-900' : 'text-slate-400'}">${nilaiAngka}</td>
           <td class="py-3.5 px-2 text-center">
-            <span class="px-2 py-0.5 rounded-lg text-xs font-black ${nilaiDosen ? (nilaiDosen.statusLulus === 'LULUS' ? 'bg-blue-100 text-[#0055A5]' : 'bg-rose-100 text-rose-700') : 'bg-slate-100 text-slate-400'}">${nilaiHuruf}</span>
+            <span class="px-2 py-0.5 rounded-lg text-xs font-black ${badgeGradeColor}">${nilaiHuruf}</span>
           </td>
           <td class="py-3.5 px-2 text-center font-mono font-bold ${nilaiDosen ? 'text-slate-800' : 'text-slate-400'}">${bobot.toFixed(1)}</td>
           <td class="py-3.5 px-3 text-center font-mono font-black ${nilaiDosen ? 'text-slate-900' : 'text-slate-400'}">${mutu.toFixed(1)}</td>
