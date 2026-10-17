@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Dashboard Dosen Pembimbing Akademik - SIAKAD</title>
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-acrylic {
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(26px) saturate(160%);
+      -webkit-backdrop-filter: blur(26px) saturate(160%);
+      border: 1.5px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.08);
+    }
+    .glass-sidebar {
+      background: rgba(255, 255, 255, 0.70);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 12px 36px -4px rgba(15, 23, 42, 0.08);
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 85, 165, 0.25);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 relative min-h-screen overflow-x-hidden select-none bg-slate-100">
+
+  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <div class="relative z-10 flex min-h-screen p-4 lg:p-6 gap-5 max-w-[1680px] mx-auto">
+    
+    <!-- Dock Navigasi Kiri Dosen -->
+    <aside class="w-[74px] shrink-0 sticky top-6 z-30">
+      <div class="glass-sidebar rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
+        <div class="flex flex-col items-center gap-7 w-full">
+          <button onclick="window.toggleAppSwitcher && toggleAppSwitcher()" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 hover:text-[#0055A5] hover:bg-white/50 transition cursor-pointer" type="button" title="Pindah Modul / Peran">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect height="7" rx="1.5" width="7" x="3" y="3"></rect>
+              <rect height="7" rx="1.5" width="7" x="14" y="3"></rect>
+              <rect height="7" rx="1.5" width="7" x="3" y="14"></rect>
+              <rect height="7" rx="1.5" width="7" x="14" y="14"></rect>
+            </svg>
+          </button>
+          
+          <div class="w-8 h-[1px] bg-slate-300/60"></div>
+          
+          <nav class="flex flex-col items-center gap-3.5 w-full">
+            <a href="dashboard-dosen.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="Dashboard Dosen PA">
+              <svg class="w-6 h-6 stroke-[2.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </a>
+            
+            <a href="nilai-dosen.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Input Nilai DPNA">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+            </a>
+
+            <a href="portal.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Kembali ke Portal Modul">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+            </a>
+          </nav>
+        </div>
+        <div id="dosenAvatarDock" class="w-11 h-11 rounded-2xl bg-amber-500 text-white font-bold text-sm flex items-center justify-center shadow-sm">HW</div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col gap-6 pb-12">
+      <!-- Header -->
+      <section class="glass-acrylic rounded-[28px] p-6 lg:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3">
+            <h1 class="text-2xl lg:text-[26px] font-extrabold text-[#0F172A] tracking-tight">Portal Dosen Pembimbing Akademik</h1>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300">
+              Akun Dosen PA
+            </span>
+          </div>
+          <p id="dosenSubHeader" class="text-xs text-slate-600 mt-1 font-medium">
+            Dr. Ir. Hendra Wijaya, M.T. • NIDN: 0412087501 • Prodi Teknik Informatika
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a href="nilai-dosen.html" class="px-4 py-2.5 rounded-xl bg-[#0055A5] hover:bg-[#004382] text-white text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <span>📝 Buka Lembar Penilaian (DPNA) &rarr;</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 3 Kartu Ringkasan Dinamis -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass-acrylic rounded-[24px] p-5">
+          <span class="text-xs font-bold text-slate-500 uppercase">Total Mahasiswa Bimbingan</span>
+          <div id="statTotalBimbingan" class="text-3xl font-black text-slate-900 mt-2">0 Mahasiswa</div>
+          <p class="text-[11px] text-slate-500 mt-1">Terdaftar di pangkalan data BAAK</p>
+        </div>
+
+        <div class="glass-acrylic rounded-[24px] p-5">
+          <span class="text-xs font-bold text-slate-500 uppercase">Antrean Persetujuan KRS</span>
+          <div id="statKrsAntrean" class="text-3xl font-black text-amber-600 mt-2">0 Menunggu</div>
+          <p class="text-[11px] text-slate-500 mt-1">Mahasiswa yang mengajukan rencana studi</p>
+        </div>
+
+        <div class="glass-acrylic rounded-[24px] p-5">
+          <span class="text-xs font-bold text-slate-500 uppercase">IPK Rata-Rata Bimbingan</span>
+          <div id="statIpkBimbingan" class="text-3xl font-black text-emerald-600 mt-2">0.00</div>
+          <p class="text-[11px] text-slate-500 mt-1">Rata-rata kumulatif seluruh anak bimbingan</p>
+        </div>
+      </section>
+
+      <!-- Tabel Bimbingan Akademik Mahasiswa -->
+      <section class="glass-acrylic rounded-[24px] overflow-hidden flex flex-col space-y-4 p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/50 pb-4">
+          <div>
+            <h2 class="text-base font-bold text-[#0F172A]">Daftar Mahasiswa Bimbingan Akademik (PA)</h2>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">Pantau status KRS, beban SKS semester berjalan, dan capaian IPK</p>
+          </div>
+          
+          <!-- Filter & Search Input -->
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <input id="searchMhsBimbingan" type="text" oninput="filterMahasiswa(this.value)" placeholder="Cari Nama / NIM..." class="bg-white/80 border border-slate-300 rounded-xl px-3 py-1.5 pl-8 text-xs font-semibold focus:ring-[#0055A5] focus:border-[#0055A5]">
+              <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><path d="m21 21-4.3-4.3" stroke-width="2"></path></svg>
+            </div>
+            <select id="filterStatusKrs" onchange="filterStatus(this.value)" class="bg-white/80 border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-[#0055A5] focus:ring-[#0055A5]">
+              <option value="ALL">Semua Status KRS</option>
+              <option value="menunggu">Perlu Validasi</option>
+              <option value="disetujui">Sudah Disetujui</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-xs lg:text-sm">
+            <thead>
+              <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
+                <th class="py-3 px-4">NIM</th>
+                <th class="py-3 px-4">Nama Mahasiswa</th>
+                <th class="py-3 px-3 text-center">Batch</th>
+                <th class="py-3 px-3 text-center">Semester</th>
+                <th class="py-3 px-3 text-center">Beban SKS</th>
+                <th class="py-3 px-3 text-center">IPK Terkini</th>
+                <th class="py-3 px-4 text-center">Status KRS</th>
+                <th class="py-3 px-4 text-center">Aksi Dosen PA</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyBimbingan" class="divide-y divide-white/50 font-medium text-slate-700">
+              <!-- Render baris oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL OVERLAY PERSETUJUAN KRS DINAMIS -->
+  <div id="modalApprovalConfirm" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md select-none transition-all">
+    <div class="bg-white/95 backdrop-blur-2xl rounded-[30px] max-w-sm w-full p-6 shadow-2xl border border-white/80 text-center space-y-4 animate-in zoom-in-95 duration-150">
+      
+      <!-- Icon Status -->
+      <div class="w-16 h-16 rounded-3xl mx-auto flex items-center justify-center text-3xl shadow-inner bg-emerald-100 text-emerald-700 border border-emerald-200">
+        ✓
+      </div>
+
+      <!-- Teks Keterangan -->
+      <div>
+        <h3 class="text-lg font-black text-slate-900 tracking-tight">KRS Berhasil Disetujui!</h3>
+        <p class="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
+          Rencana studi semester ini telah diverifikasi dan disahkan oleh Dosen Pembimbing Akademik.
+        </p>
+      </div>
+
+      <!-- Detail Box Dinamis -->
+      <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80 text-left space-y-1.5 text-xs">
+        <div class="flex justify-between"><span class="text-slate-500">Mahasiswa:</span><strong id="modalMhsNama" class="text-slate-900">-</strong></div>
+        <div class="flex justify-between"><span class="text-slate-500">NIM:</span><strong id="modalMhsNim" class="text-slate-900 font-mono">-</strong></div>
+        <div class="flex justify-between"><span class="text-slate-500">Status Studi:</span><strong class="text-emerald-700 font-bold">KRS Sah &amp; Terbuka</strong></div>
+      </div>
+
+      <!-- Tombol Tutup -->
+      <div class="pt-2">
+        <button onclick="tutupModalApproval()" class="w-full py-3 rounded-2xl bg-[#0055A5] hover:bg-blue-800 text-white font-bold text-xs shadow-md shadow-blue-900/20 transition cursor-pointer">
+          Selesai &amp; Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIKA DASHBOARD DOSEN REAL-TIME -->
+  <script>
+    const STORAGE_MHS = 'siakad_master_mahasiswa_db';
+    const STORAGE_NILAI = 'siakad_db_nilai';
+    const STATUS_KEY = 'siakad_status_krs';
+    const ENROLLED_KEY = 'siakad_krs_enrolled_codes';
+    const STORAGE_ACTIVE_USER = 'siakad_active_user';
+
+    let daftarBimbingan = [];
+    let filterKeyword = '';
+    let filterStatusKrsVal = 'ALL';
+
+    function inisialisasiDashboardDosen() {
+      // 1. Sinkronisasi Data Profil Dosen
+      try {
+        const activeUser = JSON.parse(localStorage.getItem(STORAGE_ACTIVE_USER) || 'null');
+        if (activeUser && activeUser.role === 'dosen') {
+          const subEl = document.getElementById('dosenSubHeader');
+          if (subEl) {
+            subEl.innerText = `${activeUser.nama || 'Dr. Ir. Hendra Wijaya, M.T.'} • NIDN: ${activeUser.nidn || '0412087501'} • Homebase: ${activeUser.homebase || 'Teknik Informatika'}`;
+          }
+          const inisial = (activeUser.nama || 'HW').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+          const dockEl = document.getElementById('dosenAvatarDock');
+          if (dockEl) dockEl.innerText = inisial;
+        }
+      } catch (e) { console.error(e); }
+
+      // 2. Ambil Semua Mahasiswa dari Database BAAK
+      const allMhs = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      
+      // Ambil mahasiswa prodi Teknik Informatika (atau semua mahasiswa jika belum ada pembagian)
+      daftarBimbingan = allMhs.filter(m => m.prodi === 'TI' || !m.prodi);
+
+      // Jika memori masih kosong, buat dummy awal (Ahmad Fauzi)
+      if (daftarBimbingan.length === 0) {
+        daftarBimbingan = [
+          { nim: '220101001', nama: 'Ahmad Fauzi', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' }
+        ];
+      }
+
+      renderTable();
+      renderKpi();
+    }
+
+    function renderKpi() {
+      // Total Bimbingan
+      document.getElementById('statTotalBimbingan').innerText = `${daftarBimbingan.length} Mahasiswa`;
+
+      // Hitung Antrean Menunggu
+      let antrean = 0;
+      let totalIpk = 0;
+      let countWithIpk = 0;
+
+      daftarBimbingan.forEach(m => {
+        const st = getMahasiswaKrsStatus(m.nim);
+        if (st === 'menunggu') antrean++;
+
+        const ipk = getMahasiswaIpk(m.nim);
+        if (parseFloat(ipk) > 0) {
+          totalIpk += parseFloat(ipk);
+          countWithIpk++;
+        }
+      });
+
+      const statAntrean = document.getElementById('statKrsAntrean');
+      statAntrean.innerText = `${antrean} Menunggu`;
+      if (antrean > 0) {
+        statAntrean.className = 'text-3xl font-black text-amber-600 mt-2 animate-pulse';
+      } else {
+        statAntrean.className = 'text-3xl font-black text-slate-800 mt-2';
+      }
+
+      // Rata-rata IPK
+      const avgIpk = countWithIpk > 0 ? (totalIpk / countWithIpk).toFixed(2) : "0.00";
+      document.getElementById('statIpkBimbingan').innerText = avgIpk;
+    }
+
+    function getMahasiswaKrsStatus(nim) {
+      const perUserKey = localStorage.getItem(`${STATUS_KEY}_${nim}`);
+      if (perUserKey) return perUserKey;
+      // Default jika belum pernah diset: Ahmad Fauzi disetujui, mahasiswa lain draft
+      return (nim === '220101001') ? 'disetujui' : 'draft';
+    }
+
+    function getMahasiswaSks(nim) {
+      const enrolled = JSON.parse(localStorage.getItem(`${ENROLLED_KEY}_${nim}`) || '[]');
+      if (enrolled.length > 0) {
+        return enrolled.length * 3; // Estimasi rata-rata 3 SKS per matkul yang diambil
+      }
+      return (nim === '220101001') ? 21 : 0;
+    }
+
+    function getMahasiswaIpk(nim) {
+      // Cek apakah ada nilai di siakad_db_nilai
+      const dbNilai = JSON.parse(localStorage.getItem(STORAGE_NILAI) || '[]');
+      const nilaiMhs = dbNilai.filter(n => n.nim === nim);
+
+      if (nilaiMhs.length > 0) {
+        let totalMutu = 0;
+        let totalSks = 0;
+        nilaiMhs.forEach(n => {
+          totalMutu += (Number(n.sks) * Number(n.bobot));
+          totalSks += Number(n.sks);
+        });
+        return totalSks > 0 ? (totalMutu / totalSks).toFixed(2) : "0.00";
+      }
+
+      // Fallback: Ahmad Fauzi bawaan 3.82, maba baru 0.00
+      return (nim === '220101001') ? "3.82" : "0.00";
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('tbodyBimbingan');
+      tbody.innerHTML = '';
+
+      const filtered = daftarBimbingan.filter(m => {
+        const matchKeyword = !filterKeyword || 
+          m.nama.toLowerCase().includes(filterKeyword) || 
+          m.nim.includes(filterKeyword);
+        const statusKrs = getMahasiswaKrsStatus(m.nim);
+        const matchStatus = (filterStatusKrsVal === 'ALL') || (statusKrs === filterStatusKrsVal);
+        return matchKeyword && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400 font-semibold">Tidak ada mahasiswa bimbingan yang sesuai.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(m => {
+        const statusKrs = getMahasiswaKrsStatus(m.nim);
+        const sks = getMahasiswaSks(m.nim);
+        const ipk = getMahasiswaIpk(m.nim);
+
+        let badgeStatusHtml = '';
+        let buttonActionHtml = '';
+
+        if (statusKrs === 'disetujui') {
+          badgeStatusHtml = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">✓ Disetujui</span>`;
+          buttonActionHtml = `
+            <button onclick="batalkanPersetujuan('${m.nim}')" class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-600 font-bold text-xs transition cursor-pointer">
+              Batalkan
+            </button>
+          `;
+        } else if (statusKrs === 'menunggu') {
+          badgeStatusHtml = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 animate-pulse">⏳ Perlu Validasi</span>`;
+          buttonActionHtml = `
+            <button onclick="setujuiKrs('${m.nim}', '${m.nama}')" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition cursor-pointer">
+              ✓ Setujui KRS
+            </button>
+          `;
+        } else {
+          badgeStatusHtml = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">Draft Mhs</span>`;
+          buttonActionHtml = `
+            <button onclick="setujuiKrs('${m.nim}', '${m.nama}')" class="px-3.5 py-1.5 rounded-xl bg-[#0055A5] hover:bg-blue-800 text-white font-bold text-xs shadow-xs transition cursor-pointer">
+              ✓ Setujui Langsung
+            </button>
+          `;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/40 transition';
+        tr.innerHTML = `
+          <td class="py-4 px-4 font-mono font-bold text-[#0055A5]">${m.nim}</td>
+          <td class="py-4 px-4 font-bold text-slate-900">${m.nama}</td>
+          <td class="py-4 px-3 text-center text-slate-600 font-bold">${m.batch || '2024'}</td>
+          <td class="py-4 px-3 text-center">Semester ${m.semester || 2}</td>
+          <td class="py-4 px-3 text-center font-bold text-[#0055A5]">${sks} SKS</td>
+          <td class="py-4 px-3 text-center font-black ${parseFloat(ipk) > 0 ? 'text-emerald-600' : 'text-slate-400'}">${ipk}</td>
+          <td class="py-4 px-4 text-center">${badgeStatusHtml}</td>
+          <td class="py-4 px-4 text-center">${buttonActionHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setujuiKrs(nim, nama) {
+      localStorage.setItem(`${STATUS_KEY}_${nim}`, 'disetujui');
+      
+      // Update info modal konfirmasi
+      document.getElementById('modalMhsNama').innerText = nama;
+      document.getElementById('modalMhsNim').innerText = nim;
+      document.getElementById('modalApprovalConfirm').classList.remove('hidden');
+
+      renderTable();
+      renderKpi();
+    }
+
+    function tutupModalApproval() {
+      document.getElementById('modalApprovalConfirm').classList.add('hidden');
+    }
+
+    function batalkanPersetujuan(nim) {
+      localStorage.setItem(`${STATUS_KEY}_${nim}`, 'draft');
+      renderTable();
+      renderKpi();
+    }
+
+    function filterMahasiswa(val) {
+      filterKeyword = val.toLowerCase().trim();
+      renderTable();
+    }
+
+    function filterStatus(val) {
+      filterStatusKrsVal = val;
+      renderTable();
+    }
+
+    document.addEventListener('DOMContentLoaded', inisialisasiDashboardDosen);
+  </script>
+
+  <script src="../assets/js/app-switcher.js"></script>
+</body>
+</html>

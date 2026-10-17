@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Portal Layanan Terpadu - SIAKAD</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    .frosted-glass {
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(26px) saturate(160%);
+      -webkit-backdrop-filter: blur(26px) saturate(160%);
+      border: 1.5px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.10);
+    }
+    .frosted-glass-card {
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 min-h-screen flex items-center justify-center p-4 relative select-none bg-slate-100 overflow-hidden">
+
+  <!-- Background Wallpaper Kaca Perpustakaan Identik -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <!-- Kartu Penjelasan Modal -->
+  <div class="relative z-10 frosted-glass rounded-[32px] p-7 md:p-10 max-w-xl w-full flex flex-col items-center text-center shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+    
+    <!-- Status SSO Badge -->
+    <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0055A5] text-xs font-bold mb-6 shadow-xs">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>Single Sign-On (SSO) Aktif</span>
+    </div>
+
+    <!-- Ikon Modul Dinamis -->
+    <div class="w-20 h-20 rounded-3xl bg-[#0055A5]/10 border border-[#0055A5]/20 text-[#0055A5] flex items-center justify-center text-3xl font-extrabold mb-4 shadow-inner">
+      <span id="modulIcon">🏛️</span>
+    </div>
+
+    <!-- Judul & Keterangan Modul -->
+    <h1 id="modulTitle" class="text-2xl md:text-[26px] font-black text-slate-900 tracking-tight">
+      Modul Layanan Kampus
+    </h1>
+    <p id="modulSubtitle" class="text-xs md:text-sm text-slate-600 font-medium mt-1.5 max-w-md leading-relaxed">
+      Sistem Informasi Manajemen Terintegrasi Universitas.
+    </p>
+
+    <!-- Kotak Batasan Masalah & Lingkup Demo -->
+    <div class="w-full frosted-glass-card rounded-2xl p-4 my-6 text-left border border-white/80 space-y-2.5">
+      <div class="flex items-center justify-between text-[11px] font-bold">
+        <span class="text-slate-500 uppercase tracking-wider">Status Modul</span>
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">Rencana Implementasi Fase 2</span>
+      </div>
+      <p class="text-xs text-slate-600 leading-relaxed font-normal">
+        Sesuai dengan <strong>Batasan Masalah Prototipe</strong>, implementasi saat ini berfokus penuh pada <strong>Siklus Inti Akademik</strong>:
+      </p>
+      <div class="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-700 pt-1">
+        <div class="bg-white/70 px-2.5 py-1.5 rounded-xl border border-white flex items-center gap-1.5">
+          <span class="text-emerald-600">✓</span> Pengisian KRS Dinamis
+        </div>
+        <div class="bg-white/70 px-2.5 py-1.5 rounded-xl border border-white flex items-center gap-1.5">
+          <span class="text-emerald-600">✓</span> Validasi Dosen PA
+        </div>
+        <div class="bg-white/70 px-2.5 py-1.5 rounded-xl border border-white flex items-center gap-1.5">
+          <span class="text-emerald-600">✓</span> Penilaian DPNA Dosen
+        </div>
+        <div class="bg-white/70 px-2.5 py-1.5 rounded-xl border border-white flex items-center gap-1.5">
+          <span class="text-emerald-600">✓</span> Rekap KHS &amp; Kalkulasi IPS
+        </div>
+      </div>
+    </div>
+
+    <!-- Tombol Navigasi -->
+    <div class="flex items-center justify-center gap-3 w-full flex-wrap">
+      <button onclick="window.history.back()" class="flex-1 py-3 px-5 rounded-2xl border border-slate-300 bg-white/80 hover:bg-white text-slate-700 text-xs font-bold transition shadow-xs cursor-pointer" type="button">
+        ← Kembali
+      </button>
+
+      <a href="portal.html" class="flex-1 py-3 px-5 rounded-2xl bg-[#0055A5] hover:bg-[#00478b] text-white text-xs font-bold transition shadow-md shadow-blue-900/20 text-center cursor-pointer">
+        Portal Modul Utama
+      </a>
+    </div>
+
+  </div>
+
+  <script>
+    // Membaca nama modul dari URL parameter
+    const params = new URLSearchParams(window.location.search);
+    const namaModul = params.get('modul') || 'Portal Layanan Terpadu';
+
+    document.getElementById('modulTitle').innerText = namaModul;
+    document.title = `${namaModul} - SIAKAD SSO`;
+
+    const iconEl = document.getElementById('modulIcon');
+    const subEl = document.getElementById('modulSubtitle');
+
+    // Mengatur ikon dan deskripsi secara otomatis sesuai kata kunci nama modul
+    const lower = namaModul.toLowerCase();
+    if (lower.includes('akreditasi')) {
+      iconEl.innerText = '📑';
+      subEl.innerText = 'Sistem Penjaminan Mutu Internal dan Pelaporan Akreditasi Program Studi.';
+    } else if (lower.includes('perpustakaan') || lower.includes('library')) {
+      iconEl.innerText = '📚';
+      subEl.innerText = 'Layanan Perpustakaan Digital, Katalog Buku Mandiri, dan Akses Repositori Ilmiah.';
+    } else if (lower.includes('alumni') || lower.includes('tracer')) {
+      iconEl.innerText = '🎓';
+      subEl.innerText = 'Portal Tracer Study, Pendataan Jejak Karir Alumni, dan Legalisir Ijazah Elektronik.';
+    } else if (lower.includes('sarpras') || lower.includes('aset')) {
+      iconEl.innerText = '🏢';
+      subEl.innerText = 'Sistem Manajemen Inventaris Sarana Prasarana dan Peminjaman Ruang Kuliah.';
+    } else if (lower.includes('pmb')) {
+      iconEl.innerText = '📝';
+      subEl.innerText = 'Penerimaan Mahasiswa Baru, Seleksi Berkas Online, dan Verifikasi Registrasi.';
+    } else if (lower.includes('sdm') || lower.includes('pegawai')) {
+      iconEl.innerText = '👥';
+      subEl.innerText = 'Manajemen Kepegawaian, Beban Kinerja Dosen (BKD), dan Presensi Staf.';
+    } else {
+      iconEl.innerText = '🏛️';
+      subEl.innerText = 'Portal Layanan Universitas Terintegrasi Single Sign-On (SSO).';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 85, 165, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 85, 165, 0.6);
+}
+
+/* Master Hull & Kontainer Kaca Utama */
+.glass-acrylic,
+.master-glass-hull,
+.frosted-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+/* Header Kaca Biru di Portal */
+.top-bar-glass {
+  background: linear-gradient(135deg, rgba(3, 84, 179, 0.85) 0%, rgba(2, 59, 130, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow: 0 10px 25px -5px rgba(2, 44, 98, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Sub-card & Kotak Komponen Kaca */
+.glass-subcard,
+.module-card-glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-subcard:hover,
+.module-card-glass:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -6px rgba(15, 23, 42, 0.14);
+}
+
+/* Dock Menu Samping Vertikal */
+.frosted-glass-sidebar {
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.07);
+}
+
+/* Dock Melayang Bawah */
+.pill-dock-glass,
+.frosted-glass-footer {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.12);
+}

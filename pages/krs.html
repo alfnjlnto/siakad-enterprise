@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>KRS Online - Rencana Studi Mahasiswa | SIAKAD</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    .frosted-glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+    }
+    .frosted-glass-sidebar {
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.07);
+    }
+    .frosted-glass-footer {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.12);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 85, 165, 0.25);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 relative min-h-screen overflow-x-hidden select-none bg-slate-100">
+
+  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <div class="relative z-10 flex min-h-screen p-4 lg:p-6 gap-5 max-w-[1680px] mx-auto">
+    <!-- Dock Navigasi Kiri -->
+    <aside class="w-[74px] shrink-0 sticky top-6 z-30">
+      <div class="frosted-glass-sidebar rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
+        <div class="flex flex-col items-center gap-7 w-full">
+          <!-- App Switcher -->
+          <button onclick="window.toggleAppSwitcher && toggleAppSwitcher()" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 hover:text-[#0055A5] hover:bg-white/50 transition cursor-pointer" type="button" title="Pindah Modul / Peran">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect height="7" rx="2" width="7" x="3" y="3"></rect>
+              <rect height="7" rx="2" width="7" x="14" y="3"></rect>
+              <rect height="7" rx="2" width="7" x="3" y="14"></rect>
+              <rect height="7" rx="2" width="7" x="14" y="14"></rect>
+            </svg>
+          </button>
+          
+          <div class="w-8 h-[1px] bg-slate-300/60"></div>
+          
+          <!-- Menu Navigasi Mahasiswa -->
+          <nav class="flex flex-col items-center gap-3.5 w-full">
+            <!-- 1. Dashboard -->
+            <a href="dashboard.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Dashboard">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </a>
+            
+            <!-- 2. KRS Online (Aktif) -->
+            <a href="krs.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="KRS Online">
+              <svg class="w-6 h-6 stroke-[2.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </a>
+            
+            <!-- 3. KHS & Transkrip -->
+            <a href="khs.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="KHS &amp; Transkrip">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </a>
+
+            <!-- 4. Keuangan / Tagihan UKT -->
+            <a href="modulSIM.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Keuangan &amp; Tagihan UKT">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect height="14" rx="2" stroke-linecap="round" stroke-linejoin="round" width="20" x="2" y="5"></rect>
+                <line stroke-linecap="round" stroke-linejoin="round" x1="2" x2="22" y1="10" y2="10"></line>
+              </svg>
+            </a>
+          </nav>
+        </div>
+        <div id="userSidebarAvatar" class="w-11 h-11 rounded-2xl bg-[#0055A5] text-white font-bold text-sm flex items-center justify-center shadow-sm">AF</div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex flex-col gap-6 pb-28">
+      
+      <!-- Header -->
+      <section class="frosted-glass rounded-[24px] p-6 lg:p-7">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-5 flex flex-col gap-2">
+            <div class="flex items-center gap-3">
+              <h1 class="text-2xl lg:text-[26px] font-extrabold text-[#0F172A] tracking-tight">Rencana Studi Mahasiswa (KRS)</h1>
+              <span id="badgeMasaKrs" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Masa Pengisian Aktif
+              </span>
+            </div>
+            <div id="krsSubtitleUser" class="text-xs text-slate-600 font-medium">Ahmad Fauzi (220101001) • Semester Genap 2024/2025</div>
+          </div>
+
+          <!-- SKS Widget -->
+          <div class="lg:col-span-4 bg-white/50 rounded-2xl p-3.5 border border-white/80 shadow-inner">
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="text-xs font-bold text-slate-500">Beban SKS Terpilih</span>
+              <div class="text-lg font-extrabold text-[#0055A5]"><span id="sksHeaderCount">0</span> / 24 SKS</div>
+            </div>
+            <div class="w-full h-3 bg-slate-200/70 rounded-full overflow-hidden p-0.5 border border-white">
+              <div id="sksProgressBar" class="h-full bg-gradient-to-r from-blue-600 to-[#0055A5] rounded-full transition-all duration-500" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Filter Kategori Matkul -->
+          <div class="lg:col-span-3 flex flex-col items-end gap-2">
+            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Filter Kurikulum</span>
+            <div class="inline-flex p-1 rounded-xl bg-slate-200/50 border border-white/60 text-xs font-semibold">
+              <button onclick="setCategoryFilter('semua')" id="cat-semua" class="px-3 py-1 rounded-lg bg-[#0055A5] text-white">Semua</button>
+              <button onclick="setCategoryFilter('Wajib')" id="cat-wajib" class="px-3 py-1 rounded-lg text-slate-600">Wajib</button>
+              <button onclick="setCategoryFilter('Pilihan')" id="cat-pilihan" class="px-3 py-1 rounded-lg text-slate-600">Pilihan</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Banner Gembok UKT Dinamis -->
+      <div id="bannerKrsLock" class="hidden frosted-glass border-rose-300 bg-rose-50/90 text-rose-950 rounded-[22px] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm animate-in fade-in duration-200">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-2xl bg-rose-100 border border-rose-300 text-rose-700 flex items-center justify-center text-xl shrink-0 font-bold">
+            🔒
+          </div>
+          <div>
+            <h4 class="text-sm font-extrabold text-rose-950">Akses Pengisian KRS Terkunci</h4>
+            <p class="text-xs text-rose-800 mt-0.5">
+              Prasyarat keuangan belum terpenuhi. Kamu harus menyelesaikan pembayaran UKT terlebih dahulu di SIM Keuangan.
+            </p>
+          </div>
+        </div>
+        <a href="modulSIM.html" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-900/20 transition shrink-0 text-center cursor-pointer">
+          💳 Bayar UKT di SIM Keuangan &rarr;
+        </a>
+      </div>
+
+      <!-- Table Section -->
+      <section class="frosted-glass rounded-[24px] overflow-hidden flex flex-col">
+        <div class="px-6 py-4 border-b border-white/50 flex items-center justify-between bg-white/40">
+          <h2 class="text-base font-bold text-[#0F172A]">Daftar Penawaran Mata Kuliah Semester Ini</h2>
+          <span class="text-xs text-slate-500 font-medium">Ditampilkan: <strong id="krsVisibleCount">0 matkul</strong></span>
+        </div>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-xs lg:text-sm">
+            <thead>
+              <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
+                <th class="py-3.5 px-5">Kode</th>
+                <th class="py-3.5 px-5">Nama Mata Kuliah</th>
+                <th class="py-3.5 px-4 text-center">SKS</th>
+                <th class="py-3.5 px-5">Dosen Pengampu</th>
+                <th class="py-3.5 px-5">Jadwal &amp; Ruang</th>
+                <th class="py-3.5 px-5 text-center">Status</th>
+                <th class="py-3.5 px-5 text-right">Aksi Mahasiswa</th>
+              </tr>
+            </thead>
+            <tbody id="krsTbody" class="divide-y divide-white/50 font-medium text-slate-700"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Sticky Footer Bar -->
+      <footer class="fixed bottom-4 lg:bottom-6 left-[104px] right-4 lg:right-6 max-w-[1580px] z-30">
+        <div class="frosted-glass-footer rounded-[24px] px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div>
+              <div class="text-sm font-extrabold text-[#0F172A]">
+                Total Dipilih: <span id="footerCourseCount" class="text-[#0055A5]">0 Matkul</span> (<span id="footerSksCount">0</span> SKS)
+              </div>
+              <div class="text-xs text-slate-600 mt-0.5 flex items-center gap-2">
+                <span>Dosen PA: <strong>Dr. Ir. Hendra Wijaya, M.T.</strong></span>
+                <span id="footerStatusBadge" class="font-bold px-2.5 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-600 border border-slate-200">
+                  Draft
+                </span>
+              </div>
+            </div>
+          </div>
+          <button id="btnSubmitKRS" onclick="submitKrsPlan()" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs lg:text-sm font-bold text-white bg-[#0055A5] hover:bg-[#00478b] shadow-lg shadow-blue-900/25 transition cursor-pointer" type="button">
+            <span>Ajukan Rencana Studi ke Dosen PA</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+          </button>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Toast Notifikasi Halus -->
+  <div id="glassToast" class="fixed bottom-24 right-8 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-white/95 backdrop-blur-xl border border-emerald-500/30 text-emerald-950 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3">
+      <div id="toastIcon" class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">✓</div>
+      <div>
+        <h4 id="toastTitle" class="text-xs font-extrabold text-slate-900">Berhasil</h4>
+        <p id="toastDesc" class="text-[11px] text-slate-600">Operasi berhasil dijalankan.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MASTER_KEY = 'siakad_master_matkul_db';
+    const ENROLLED_KEY = 'siakad_krs_enrolled_codes';
+    const STATUS_KEY = 'siakad_status_krs';
+    const UKT_KEY = 'siakad_status_ukt';
+    const MAX_SKS = 24;
+
+    const DEFAULT_COURSES = [
+      { kode: 'IF2104', nama: 'Sistem Basis Data', deskripsi: 'Kelas A • Database Query & Optimization', sks: 3, dosen: 'Dr. Ir. Hendra Wijaya, M.T.', jadwal: 'Senin, 13:00 - 15:30', ruang: 'Lab Data (Gd. B)', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2101', nama: 'Algoritma & Pemrograman II', deskripsi: 'Kelas A • Core Algorithm & Structures', sks: 3, dosen: 'Prof. Dr. Ir. Hendra Kusuma', jadwal: 'Senin, 08:00 - 10:30', ruang: 'Lab Komputer 01', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2102', nama: 'Sistem Operasi', deskripsi: 'Kelas B • Process & Memory Management', sks: 3, dosen: 'Dr. Aris Subagyo, M.T.', jadwal: 'Selasa, 10:00 - 12:30', ruang: 'R.302 (Gd. B)', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2103', nama: 'Rekayasa Perangkat Lunak', deskripsi: 'Kelas A • Software Lifecycle & Architecture', sks: 3, dosen: 'Dr. Aris Subagyo, M.T.', jadwal: 'Rabu, 08:00 - 10:30', ruang: 'R.204', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2105', nama: 'Arsitektur Komputer', deskripsi: 'Kelas A • CPU Microarchitecture', sks: 3, dosen: 'Ferry Sandi, S.T., M.Sc.', jadwal: 'Kamis, 08:00 - 10:30', ruang: 'Lab Hardware', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2106', nama: 'Jaringan Komputer', deskripsi: 'Kelas B • Networking & Protocols', sks: 3, dosen: 'Ferry Sandi, S.T., M.Sc.', jadwal: 'Jumat, 08:00 - 10:30', ruang: 'Lab Jaringan', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'KU2001', nama: 'Etika Profesi & Komunikasi', deskripsi: 'Kelas C • Professional Ethics', sks: 2, dosen: 'Ir. Bambang Wijaya, M.T.', jadwal: 'Kamis, 13:00 - 14:40', ruang: 'R.105', sifat: 'Wajib', status: 'Aktif' }
+    ];
+
+    let currentCategory = 'semua';
+
+    // 1. Membaca Akun Login Aktif secara Dinamis
+    function getActiveUser() {
+      try {
+        const saved = localStorage.getItem('siakad_active_user');
+        if (saved) return JSON.parse(saved);
+      } catch(e) {}
+      return {
+        nim: '220101001',
+        nama: 'Ahmad Fauzi',
+        prodi: 'Teknik Informatika (S1)',
+        semester: 4,
+        ukt: 'Lunas'
+      };
+    }
+
+    function isUktLunas() {
+      const user = getActiveUser();
+      const perUserKey = localStorage.getItem(`siakad_status_ukt_${user.nim}`);
+      if (perUserKey) return perUserKey.toLowerCase() === 'lunas';
+      if (user.ukt) return user.ukt.toLowerCase() === 'lunas';
+      return localStorage.getItem(UKT_KEY) === 'lunas';
+    }
+
+    function showToast(title, desc, isSuccess = true) {
+      const toast = document.getElementById('glassToast');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastDesc').innerText = desc;
+      const icon = document.getElementById('toastIcon');
+      icon.innerText = isSuccess ? '✓' : '⚠️';
+      icon.className = isSuccess ? 'w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm' : 'w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm';
+      toast.classList.remove('translate-y-16', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-16', 'opacity-0');
+      }, 2500);
+    }
+
+    function getMasterCourses() {
+      const data = localStorage.getItem(MASTER_KEY);
+      if (!data) {
+        localStorage.setItem(MASTER_KEY, JSON.stringify(DEFAULT_COURSES));
+        return DEFAULT_COURSES;
+      }
+      return JSON.parse(data);
+    }
+
+    // 2. Keranjang Matkul per Mahasiswa (NIM)
+    function getEnrolledCodes() {
+      const user = getActiveUser();
+      const userKey = `${ENROLLED_KEY}_${user.nim}`;
+      const data = localStorage.getItem(userKey);
+      if (!data) {
+        // Ahmad Fauzi bawaan sudah ambil IF2104, mahasiswa baru mulai dari 0 SKS
+        const initial = (user.nim === '220101001') ? ['IF2104'] : [];
+        localStorage.setItem(userKey, JSON.stringify(initial));
+        return new Set(initial);
+      }
+      return new Set(JSON.parse(data));
+    }
+
+    function saveEnrolledCodes(setObj) {
+      const user = getActiveUser();
+      localStorage.setItem(`${ENROLLED_KEY}_${user.nim}`, JSON.stringify(Array.from(setObj)));
+    }
+
+    function syncStatusDisplay() {
+      const user = getActiveUser();
+      const userStatusKey = `${STATUS_KEY}_${user.nim}`;
+      const st = localStorage.getItem(userStatusKey) || (user.nim === '220101001' ? 'disetujui' : 'draft');
+      
+      const badge = document.getElementById('footerStatusBadge');
+      const btn = document.getElementById('btnSubmitKRS');
+      const bannerLock = document.getElementById('bannerKrsLock');
+      const badgeMasa = document.getElementById('badgeMasaKrs');
+      const lunas = isUktLunas();
+
+      // Cek Gembok UKT
+      if (!lunas) {
+        bannerLock.classList.remove('hidden');
+        badgeMasa.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-300';
+        badgeMasa.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-600 animate-pulse"></span> Terkunci (UKT Belum Lunas)';
+
+        badge.className = 'font-bold px-3 py-1 rounded-full text-[11px] bg-rose-100 text-rose-800 border border-rose-300';
+        badge.innerText = '🔒 Akses KRS Terkunci';
+
+        btn.disabled = true;
+        btn.innerHTML = '<span>🔒 KRS Terkunci (Selesaikan UKT Dulu)</span>';
+        btn.className = 'inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs lg:text-sm font-bold text-slate-400 bg-slate-200 cursor-not-allowed shadow-none';
+        return;
+      }
+
+      // Jika UKT sudah Lunas
+      bannerLock.classList.add('hidden');
+      badgeMasa.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300';
+      badgeMasa.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Masa Pengisian Aktif';
+
+      if (st === 'menunggu') {
+        badge.className = 'font-bold px-3 py-1 rounded-full text-[11px] bg-amber-100 text-amber-800 border border-amber-300';
+        badge.innerText = '⏳ Menunggu Persetujuan Dosen PA';
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ Pengajuan Terkirim (Menunggu Persetujuan)</span>';
+        btn.className = 'inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs lg:text-sm font-bold text-white bg-amber-600 shadow-md cursor-not-allowed opacity-90';
+      } else if (st === 'disetujui') {
+        badge.className = 'font-bold px-3 py-1 rounded-full text-[11px] bg-emerald-100 text-emerald-800 border border-emerald-300';
+        badge.innerText = '✓ KRS Sah & Disetujui Dosen PA';
+        btn.disabled = true;
+        btn.innerHTML = '<span>✓ KRS Telah Disetujui Dosen PA</span>';
+        btn.className = 'inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs lg:text-sm font-bold text-white bg-emerald-600 shadow-md cursor-default';
+      } else {
+        badge.className = 'font-semibold px-2.5 py-0.5 rounded-full text-[10px] bg-slate-100 text-slate-600 border border-slate-200';
+        badge.innerText = 'Draft Rencana Studi';
+        btn.disabled = false;
+        btn.innerHTML = '<span>Ajukan Rencana Studi ke Dosen PA</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>';
+        btn.className = 'inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl text-xs lg:text-sm font-bold text-white bg-[#0055A5] hover:bg-[#00478b] shadow-lg shadow-blue-900/25 transition cursor-pointer';
+      }
+    }
+
+    function renderKrsTable() {
+      const courses = getMasterCourses();
+      const enrolled = getEnrolledCodes();
+      const tbody = document.getElementById('krsTbody');
+      const lunas = isUktLunas();
+      tbody.innerHTML = '';
+
+      let list = courses.filter(c => c.status !== 'Non-Aktif');
+      if (currentCategory === 'Wajib') list = list.filter(c => (c.sifat || 'Wajib') === 'Wajib');
+      else if (currentCategory === 'Pilihan') list = list.filter(c => (c.sifat || '').includes('Pilihan'));
+
+      document.getElementById('krsVisibleCount').innerText = `${list.length} matkul`;
+
+      list.forEach((item) => {
+        const isEnrolled = enrolled.has(item.kode);
+        const namaDosen = (item.dosen && item.dosen !== 'undefined') ? item.dosen : 'Dr. Ir. Hendra Wijaya, M.T.';
+        const isHendra = namaDosen.includes('Hendra Wijaya');
+
+        const tr = document.createElement('tr');
+        tr.className = `transition-colors duration-150 ${isEnrolled ? (isHendra ? 'bg-blue-100/50 hover:bg-blue-100/70 border border-blue-200' : 'bg-blue-50/40 hover:bg-blue-50/60') : 'hover:bg-white/40'}`;
+
+        let actionBtnHTML = '';
+        if (!lunas) {
+          actionBtnHTML = `
+            <button disabled class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-200 text-slate-400 text-xs font-semibold cursor-not-allowed" type="button">
+              🔒 Terkunci
+            </button>
+          `;
+        } else if (isEnrolled) {
+          actionBtnHTML = `
+            <button onclick="dropCourse('${item.kode}')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-300 text-xs font-semibold transition cursor-pointer" type="button">
+              Batalkan
+            </button>
+          `;
+        } else {
+          actionBtnHTML = `
+            <button onclick="enrollCourse('${item.kode}')" class="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-xl bg-[#0055A5] text-white text-xs font-semibold hover:bg-[#00478b] transition cursor-pointer" type="button">
+              + Ambil Kelas
+            </button>
+          `;
+        }
+
+        tr.innerHTML = `
+          <td class="py-4 px-5">
+            <span class="font-mono font-bold text-xs ${isHendra ? 'bg-blue-100 text-[#0055A5] border-blue-200' : 'bg-slate-200/70 text-slate-800'} px-2 py-1 rounded-md border">
+              ${item.kode}
+            </span>
+          </td>
+          <td class="py-4 px-5">
+            <div class="font-bold text-[#0F172A] text-sm">${item.nama}</div>
+            <div class="text-[11px] text-slate-500 font-normal">${item.deskripsi || 'Kelas Reguler'}</div>
+          </td>
+          <td class="py-4 px-4 text-center font-bold text-[#0055A5]">${item.sks} SKS</td>
+          <td class="py-4 px-5 font-semibold ${isHendra ? 'text-[#0055A5]' : 'text-slate-800'}">
+            ${namaDosen}
+            ${isHendra ? '<span class="block text-[10px] font-bold text-emerald-700">Dosen Pembimbing PA</span>' : ''}
+          </td>
+          <td class="py-4 px-5">
+            <div class="font-semibold text-slate-800">${item.jadwal || '-'}</div>
+            <span class="inline-block mt-0.5 text-[10px] font-semibold text-slate-600 bg-white/70 px-1.5 py-0.5 rounded border border-white">
+              ${item.ruang || 'Lab'}
+            </span>
+          </td>
+          <td class="py-4 px-5 text-center">
+            ${isEnrolled ? `
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-600 text-white shadow-xs">
+                ✓ Terdaftar
+              </span>
+            ` : `
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 border border-emerald-500/30">
+                Tersedia
+              </span>
+            `}
+          </td>
+          <td class="py-4 px-5 text-right">
+            ${actionBtnHTML}
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+
+      updateSksCounters(courses, enrolled);
+    }
+
+    function enrollCourse(kode) {
+      if (!isUktLunas()) {
+        showToast('Akses Dibatasi', 'Harap lunasi UKT terlebih dahulu di SIM Keuangan.', false);
+        return;
+      }
+
+      const courses = getMasterCourses();
+      const target = courses.find(c => c.kode === kode);
+      if (!target) return;
+
+      const enrolled = getEnrolledCodes();
+      let currentSks = 0;
+      courses.forEach(c => { if (enrolled.has(c.kode)) currentSks += c.sks; });
+
+      if (currentSks + target.sks > MAX_SKS) {
+        showToast('SKS Penuh', `Beban melebihi kuota maksimal (${MAX_SKS} SKS).`, false);
+        return;
+      }
+
+      enrolled.add(kode);
+      saveEnrolledCodes(enrolled);
+      const user = getActiveUser();
+      localStorage.setItem(`${STATUS_KEY}_${user.nim}`, 'draft');
+      renderKrsTable();
+      syncStatusDisplay();
+      showToast('Kelas Berhasil Diambil', `${target.nama} (${target.sks} SKS) ditambahkan ke rencana studi.`);
+    }
+
+    function dropCourse(kode) {
+      if (!isUktLunas()) {
+        showToast('Akses Dibatasi', 'Harap lunasi UKT terlebih dahulu di SIM Keuangan.', false);
+        return;
+      }
+
+      const enrolled = getEnrolledCodes();
+      enrolled.delete(kode);
+      saveEnrolledCodes(enrolled);
+      const user = getActiveUser();
+      localStorage.setItem(`${STATUS_KEY}_${user.nim}`, 'draft');
+      renderKrsTable();
+      syncStatusDisplay();
+      showToast('Kelas Dibatalkan', 'Mata kuliah dihapus dari draf rencana studi.', false);
+    }
+
+    function updateSksCounters(courses, enrolled) {
+      let totalSks = 0;
+      let countCourses = 0;
+      courses.forEach(c => {
+        if (enrolled.has(c.kode)) { totalSks += c.sks; countCourses++; }
+      });
+      const pct = Math.min(100, Math.round((totalSks / MAX_SKS) * 100));
+      document.getElementById('sksHeaderCount').innerText = totalSks;
+      document.getElementById('sksProgressBar').style.width = `${pct}%`;
+      document.getElementById('footerCourseCount').innerText = `${countCourses} Matkul`;
+      document.getElementById('footerSksCount').innerText = totalSks;
+    }
+
+    function setCategoryFilter(cat) {
+      currentCategory = cat;
+      const tabs = ['semua', 'wajib', 'pilihan'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`cat-${t}`);
+        if (t === cat.toLowerCase()) el.className = 'px-3 py-1 rounded-lg bg-[#0055A5] text-white shadow-xs';
+        else el.className = 'px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition';
+      });
+      renderKrsTable();
+    }
+
+    function submitKrsPlan() {
+      if (!isUktLunas()) {
+        showToast('Gagal Mengajukan', 'UKT belum lunas. Pembayaran wajib diselesaikan lebih dulu.', false);
+        return;
+      }
+
+      const enrolled = getEnrolledCodes();
+      if (enrolled.size === 0) {
+        showToast('KRS Kosong', 'Pilih setidaknya 1 mata kuliah!', false);
+        return;
+      }
+      const user = getActiveUser();
+      localStorage.setItem(`${STATUS_KEY}_${user.nim}`, 'menunggu');
+      syncStatusDisplay();
+      showToast('KRS Terkirim', 'Rencana studi berhasil diajukan ke Dr. Ir. Hendra Wijaya, M.T.!');
+    }
+
+    function syncUserProfile() {
+      const user = getActiveUser();
+      const inisial = (user.nama || 'U').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+      const avatarEl = document.getElementById('userSidebarAvatar');
+      if (avatarEl) avatarEl.innerText = inisial;
+
+      const subEl = document.getElementById('krsSubtitleUser');
+      if (subEl) {
+        subEl.innerText = `${user.nama} (${user.nim || '-'}) • Semester ${user.semester ? (user.semester % 2 === 0 ? 'Genap' : 'Ganjil') : 'Genap'} 2024/2025`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      syncUserProfile();
+      renderKrsTable();
+      syncStatusDisplay();
+    });
+  </script>
+  <script src="../assets/js/app-switcher.js"></script>
+</body>
+</html>

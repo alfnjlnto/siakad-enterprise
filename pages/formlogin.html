@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Login SSO Terpadu - Universitas Nusantara</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          boxShadow: {
+            'glass-outer': '0 30px 60px -12px rgba(0, 0, 0, 0.4), 0 18px 36px -18px rgba(0, 0, 0, 0.25)',
+            'rim-highlight': 'inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.85), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.2)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card-login {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.48) 100%);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: 1.5px solid rgba(255, 255, 255, 0.88);
+    }
+    .glass-input {
+      background: rgba(255, 255, 255, 0.75);
+      border: 1.5px solid rgba(203, 213, 225, 0.8);
+      transition: all 0.2s ease;
+    }
+    .glass-input:focus {
+      background: #ffffff;
+      border-color: #0055A5;
+      box-shadow: 0 0 0 3.5px rgba(0, 85, 165, 0.15);
+      outline: none;
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+  </style>
+</head>
+<body class="relative min-h-screen w-full flex items-center justify-center p-4 selection:bg-blue-600 selection:text-white select-none overflow-x-hidden bg-slate-900">
+
+  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+    <img alt="Perpustakaan Kampus Modern" class="w-full h-full object-cover scale-105 filter blur-[3px] brightness-[0.88] contrast-[1.05]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-gradient-to-tr from-slate-950/60 via-sky-950/30 to-slate-900/50"></div>
+  </div>
+
+  <!-- Kartu Login Utama Kaca -->
+  <main class="glass-card-login w-full max-w-[460px] rounded-[32px] p-7 sm:p-9 shadow-glass-outer shadow-rim-highlight relative z-10 flex flex-col gap-6">
+
+    <!-- Header Logo & Kampus -->
+    <div class="text-center space-y-2">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#0055A5] to-sky-500 text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-900/30">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"></path>
+          <path d="M12 11l4-2-4-2-4 2 4 2z"></path>
+          <path d="M8 13.5l4 2 4-2"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">SIAKAD Single Sign-On</h1>
+        <p class="text-xs text-slate-600 font-medium">Universitas Nusantara Global</p>
+      </div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-100/90 text-[#0055A5] border border-blue-200">
+        <span>T.A. 2024/2025 Genap</span>
+      </div>
+    </div>
+
+    <!-- Alert Notifikasi Error / Sukses -->
+    <div id="loginAlertBox" class="hidden p-3 rounded-2xl text-xs font-bold text-center border"></div>
+
+    <!-- Form Input Kredensial -->
+    <form onsubmit="eksekusiLogin(event)" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+          NIM / NIDN / Username
+        </label>
+        <div class="relative">
+          <input id="inUsername" type="text" required placeholder="misal: admin atau 220101001" 
+                 class="glass-input w-full rounded-2xl py-3 px-4 text-xs font-bold text-slate-900 placeholder-slate-400">
+        </div>
+        <p class="text-[10px] text-slate-500 mt-1">Admin: <code>admin</code> • Mahasiswa: NIM • Dosen: NIDN</p>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="block text-xs font-bold text-slate-700">Kata Sandi (Password)</label>
+          <span class="text-[10px] font-bold text-slate-500">Default: mhs123 / admin</span>
+        </div>
+        <div class="relative">
+          <input id="inPassword" type="password" required placeholder="••••••••" 
+                 class="glass-input w-full rounded-2xl py-3 px-4 text-xs font-bold text-slate-900 placeholder-slate-400">
+        </div>
+      </div>
+
+      <!-- Tombol Masuk Utama -->
+      <button type="submit" class="w-full py-3.5 rounded-2xl bg-[#0055A5] hover:bg-blue-800 text-white font-extrabold text-xs shadow-lg shadow-blue-900/25 transition duration-200 cursor-pointer flex items-center justify-center gap-2">
+        <span>Masuk ke Portal Terpadu</span>
+        <span>&rarr;</span>
+      </button>
+    </form>
+
+    <!-- Tombol Pintas Simulasi -->
+    <div class="pt-4 border-t border-slate-200/80 space-y-2">
+      <div class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider text-center">
+        Pintas Cepat Simulasi Peran:
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" onclick="isiAkunOtomatis('baak')" class="glass-pill py-2 px-1 rounded-xl text-[10px] font-extrabold text-indigo-800 hover:bg-white text-center transition cursor-pointer shadow-xs">
+          🏛️ Admin BAAK
+        </button>
+        <button type="button" onclick="isiAkunOtomatis('dosen')" class="glass-pill py-2 px-1 rounded-xl text-[10px] font-extrabold text-amber-800 hover:bg-white text-center transition cursor-pointer shadow-xs">
+          👨‍🏫 Dosen
+        </button>
+        <button type="button" onclick="isiAkunOtomatis('mhs')" class="glass-pill py-2 px-1 rounded-xl text-[10px] font-extrabold text-emerald-800 hover:bg-white text-center transition cursor-pointer shadow-xs">
+          🎓 Mahasiswa Baru
+        </button>
+      </div>
+    </div>
+
+    <!-- Catatan Keamanan Bawah -->
+    <footer class="text-center text-[10px] text-slate-500 font-medium">
+      Terautentikasi melalui Central Authentication Service (CAS) SIAKAD
+    </footer>
+  </main>
+
+  <!-- Script Otentikasi & Penyimpanan Sesi Role -->
+  <script>
+    const STORAGE_ACTIVE_USER = 'siakad_active_user';
+    const STORAGE_MHS = 'siakad_master_mahasiswa_db';
+    const STORAGE_DOSEN = 'siakad_master_dosen_db';
+
+    function eksekusiLogin(event) {
+      event.preventDefault();
+
+      const userInput = document.getElementById('inUsername').value.trim();
+      const passInput = document.getElementById('inPassword').value.trim();
+
+      const listMhs = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      const listDosen = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+
+      // 1. KONDISI ADMIN BAAK (AKSES FULL 9 MODUL)
+      if (userInput.toLowerCase() === 'admin' && (passInput === 'admin' || passInput === 'admin123')) {
+        const adminSession = {
+          role: 'admin',
+          nama: 'Admin BAAK',
+          username: 'admin',
+          nip: '198803152010121002'
+        };
+        localStorage.setItem(STORAGE_ACTIVE_USER, JSON.stringify(adminSession));
+        tampilkanAlert('✓ Login BAAK Berhasil! Membuka 9 modul...', 'sukses');
+        setTimeout(() => { window.location.href = 'portal.html'; }, 600);
+        return;
+      }
+
+      // 2. KONDISI MAHASISWA (TERMASUK MAHASISWA BARU HASIL INPUT PMB)
+      const mhs = listMhs.find(m => m.nim === userInput);
+      if (mhs) {
+        if (passInput === mhs.nim || passInput === 'mhs123' || passInput === 'admin') {
+          const mhsSession = {
+            role: 'mahasiswa',
+            nama: mhs.nama,
+            nim: mhs.nim,
+            username: mhs.nim,
+            prodi: mhs.prodiNama || 'Teknik Informatika (S1)',
+            semester: mhs.semester || 2,
+            status: mhs.status || 'Aktif',
+            ukt: mhs.ukt || 'Lunas'
+          };
+          localStorage.setItem(STORAGE_ACTIVE_USER, JSON.stringify(mhsSession));
+          tampilkanAlert(`✓ Selamat Datang, ${mhs.nama}! Membuka 3 modul mahasiswa...`, 'sukses');
+          setTimeout(() => { window.location.href = 'portal.html'; }, 600);
+          return;
+        }
+      }
+
+      // Fallback Ahmad Fauzi jika database belum diinisialisasi
+      if (userInput === '220101001' && (passInput === '220101001' || passInput === 'mhs123' || passInput === 'admin')) {
+        const ahmadSession = {
+          role: 'mahasiswa',
+          nama: 'Ahmad Fauzi',
+          nim: '220101001',
+          username: '220101001',
+          prodi: 'Teknik Informatika (S1)',
+          semester: 4,
+          status: 'Aktif',
+          ukt: 'Lunas'
+        };
+        localStorage.setItem(STORAGE_ACTIVE_USER, JSON.stringify(ahmadSession));
+        tampilkanAlert('✓ Selamat Datang, Ahmad Fauzi!', 'sukses');
+        setTimeout(() => { window.location.href = 'portal.html'; }, 600);
+        return;
+      }
+
+      // 3. KONDISI DOSEN
+      const dosen = listDosen.find(d => d.nidn === userInput || userInput === 'dosen');
+      if (dosen || userInput === 'dosen') {
+        if (passInput === (dosen?.nidn || 'dosen') || passInput === 'dosen123' || passInput === 'admin') {
+          const dosenSession = {
+            role: 'dosen',
+            nama: dosen?.nama || 'Dr. Ir. Hendra Wijaya, M.T.',
+            nidn: dosen?.nidn || '0412087501',
+            username: dosen?.nidn || 'dosen',
+            homebase: dosen?.homebase || 'Teknik Informatika'
+          };
+          localStorage.setItem(STORAGE_ACTIVE_USER, JSON.stringify(dosenSession));
+          tampilkanAlert(`✓ Selamat Bertugas, ${dosenSession.nama}!`, 'sukses');
+          setTimeout(() => { window.location.href = 'portal.html'; }, 600);
+          return;
+        }
+      }
+
+      // KREDENSIAL SALAH
+      tampilkanAlert('NIM / Username atau Password salah!', 'gagal');
+    }
+
+    function tampilkanAlert(pesan, jenis) {
+      const box = document.getElementById('loginAlertBox');
+      box.innerText = pesan;
+      box.classList.remove('hidden');
+
+      if (jenis === 'sukses') {
+        box.className = 'p-3 rounded-2xl text-xs font-bold text-center border bg-emerald-100 text-emerald-800 border-emerald-300 animate-in fade-in';
+      } else {
+        box.className = 'p-3 rounded-2xl text-xs font-bold text-center border bg-rose-100 text-rose-800 border-rose-300 animate-in shake duration-200';
+      }
+    }
+
+    // Fungsi Pengisi Cepat untuk Demo
+    function isiAkunOtomatis(role) {
+      const inUser = document.getElementById('inUsername');
+      const inPass = document.getElementById('inPassword');
+
+      if (role === 'baak') {
+        inUser.value = 'admin';
+        inPass.value = 'admin';
+      } else if (role === 'dosen') {
+        inUser.value = '0412087501';
+        inPass.value = 'mhs123';
+      } else {
+        const listMhs = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+        if (listMhs.length > 0) {
+          const mhsTerakhir = listMhs[listMhs.length - 1];
+          inUser.value = mhsTerakhir.nim;
+          inPass.value = 'mhs123';
+        } else {
+          inUser.value = '220101001';
+          inPass.value = 'mhs123';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

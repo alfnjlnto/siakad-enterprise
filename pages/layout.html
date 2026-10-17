@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Layout Template - SIAKAD</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#0055A5',
+              dark: '#003E7E',
+              light: '#E6F0FA',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Frosted Glassmorphism Tokens -->
+  <style>
+    .frosted-glass {
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 relative min-h-screen bg-slate-100 select-none">
+
+  <!-- Wallpaper Background Blur -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <img alt="Atmospheric Campus Atrium" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <!-- Page Layout Wrapper (Flexbox Grid) -->
+  <div class="relative z-10 flex min-h-screen p-4 lg:p-6 gap-5 lg:gap-6 max-w-[1680px] mx-auto">
+
+    <!-- 1. LEFT SIDEBAR DOCK (Navigasi Modul) -->
+    <aside class="w-[74px] shrink-0 self-start sticky top-6 z-30">
+      <div class="frosted-glass rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
+        
+        <div class="flex flex-col items-center gap-6 w-full">
+          <!-- App Switcher Trigger Button -->
+          <button type="button" class="w-12 h-12 rounded-2xl bg-[#0055A5] text-white flex items-center justify-center shadow-lg shadow-blue-900/30" title="Beralih Modul Sistem">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect height="7" rx="1.5" width="7" x="3" y="3"></rect>
+              <rect height="7" rx="1.5" width="7" x="14" y="3"></rect>
+              <rect height="7" rx="1.5" width="7" x="3" y="14"></rect>
+              <rect height="7" rx="1.5" width="7" x="14" y="14"></rect>
+            </svg>
+          </button>
+
+          <div class="w-8 h-[1px] bg-slate-300/60"></div>
+
+          <!-- Navigation Links Slot -->
+          <nav class="flex flex-col items-center gap-3.5 w-full">
+            <a href="dashboard.html" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-white/60 transition" title="Dashboard">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </a>
+            <a href="krs.html" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-white/60 transition" title="KRS">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Avatar Profil -->
+        <div class="relative cursor-pointer">
+          <div class="w-11 h-11 rounded-2xl bg-[#0055A5] text-white font-bold text-xs flex items-center justify-center">AF</div>
+          <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></span>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- 2. MAIN CONTENT AREA -->
+    <main class="flex-1 flex flex-col gap-6">
+
+      <!-- TOP HEADER BAR -->
+      <header class="frosted-glass rounded-[24px] p-5 flex items-center justify-between">
+        <div>
+          <h1 class="text-xl font-extrabold text-slate-900">Judul Halaman Modul</h1>
+          <p class="text-xs text-slate-500">Struktur layout dasar SIAKAD dengan arsitektur Frosted Glassmorphism</p>
+        </div>
+        <div class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-blue-50 text-[#0055A5] border border-blue-200">
+          Semester Genap 2024/2025
+        </div>
+      </header>
+
+      <!-- CONTENT PLACEHOLDER SLOT -->
+      <section class="frosted-glass rounded-[28px] p-8 flex-1 flex flex-col items-center justify-center border-dashed border-2 border-slate-300 min-h-[420px] text-center">
+        <div class="w-16 h-16 rounded-2xl bg-blue-50 text-[#0055A5] flex items-center justify-center mb-3">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg>
+        </div>
+        <h2 class="text-base font-bold text-slate-800">Area Konten Spesifik Halaman (Slot Utama)</h2>
+        <p class="text-xs text-slate-500 max-w-md mt-1">
+          Halaman ini berfungsi sebagai basis layout master (Milestone 2) sebelum diturunkan ke halaman Dashboard, KRS, KHS, Penjadwalan, maupun Data Master.
+        </p>
+      </section>
+
+      <!-- FOOTER AREA -->
+      <footer class="frosted-glass rounded-2xl p-3.5 text-center text-xs text-slate-500 font-medium">
+        &copy; 2026 Sistem Informasi Akademik (SIAKAD) — Universitas Terpadu
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- Shared App Switcher Module -->
+  <script src="../assets/js/app-switcher.js"></script>
+</body>
+</html>

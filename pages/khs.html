@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Kartu Hasil Studi (KHS) - SIAKAD Enterprise</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-acrylic {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1.5px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.08);
+    }
+    .glass-sidebar {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 85, 165, 0.25);
+      border-radius: 9999px;
+    }
+    @media print {
+      body { background: white !important; }
+      aside, header button, .no-print { display: none !important; }
+      .glass-acrylic {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+        background: white !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 relative min-h-screen overflow-x-hidden select-none bg-slate-100">
+
+  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden no-print">
+    <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <div class="relative z-10 flex min-h-screen p-4 lg:p-6 gap-6 max-w-[1720px] mx-auto">
+    
+    <!-- Dock Navigasi Kiri Mahasiswa -->
+    <aside class="w-[74px] shrink-0 sticky top-6 z-30 no-print">
+      <div class="glass-sidebar rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
+        <div class="flex flex-col items-center gap-6 w-full">
+          <!-- Tombol Home / Portal SSO -->
+          <a href="portal.html" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 hover:text-[#0055A5] hover:bg-white/60 transition cursor-pointer" title="Kembali ke Portal SSO">
+            <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          </a>
+          
+          <div class="w-8 h-[1px] bg-slate-300/60"></div>
+          
+          <nav class="flex flex-col items-center gap-3 w-full">
+            <a href="dashboard.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Dashboard Utama">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </a>
+            <a href="krs.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Rencana Studi (KRS)">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            </a>
+            <a href="khs.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="Hasil Studi (KHS)">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </a>
+            <a href="modulSIM.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Keuangan & Tagihan UKT">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+            </a>
+            <a href="portal.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Kembali ke Portal 9 Modul">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+            </a>
+          </nav>
+        </div>
+        <div id="userSidebarAvatarKhs" class="w-11 h-11 rounded-2xl bg-[#0055A5] text-white font-bold text-xs flex items-center justify-center shadow-sm">MHS</div>
+      </div>
+    </aside>
+
+    <!-- Workspace Konten KHS -->
+    <main class="flex-1 flex flex-col gap-6 pb-12">
+      
+      <!-- Header Banner KHS & Identitas Mahasiswa -->
+      <header class="glass-acrylic rounded-[28px] p-6 lg:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div class="flex items-center gap-4">
+          <div id="khsAvatar" class="w-16 h-16 rounded-2xl bg-[#0055A5] text-white flex items-center justify-center font-black text-2xl shadow-md shrink-0">
+            M
+          </div>
+          <div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <h1 id="khsNamaMhs" class="text-2xl font-black text-slate-900 tracking-tight">Memuat Data Mahasiswa...</h1>
+              <span id="khsStatusBadge" class="px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                Aktif
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 font-semibold mt-1 flex items-center gap-2 flex-wrap">
+              <span>NIM: <strong id="khsNimMhs" class="font-mono text-[#0055A5] font-bold">-</strong></span>
+              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+              <span id="khsProdiMhs">-</span>
+              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+              <span id="khsSemesterDisplay">Semester 1</span>
+              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+              <span>Dosen PA: Dr. Ir. Hendra Wijaya, M.T.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 no-print">
+          <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-950 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer">
+            <span>🖨️ Cetak KHS (A4)</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Panel Filter Semester & Ringkasan Indeks Prestasi -->
+      <section class="glass-acrylic rounded-[24px] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3 flex-wrap">
+          <label class="text-xs font-extrabold text-slate-600 uppercase tracking-wider">Pilih Semester Studi:</label>
+          <select id="selectSemesterKhs" onchange="gantiSemester(this.value)" class="bg-white/95 border border-slate-300 rounded-xl px-4 py-2 text-xs font-black text-[#0055A5] shadow-xs cursor-pointer focus:ring-[#0055A5]">
+          </select>
+        </div>
+
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="bg-white/90 border border-slate-200 rounded-xl px-4 py-1.5 flex items-center gap-2 shadow-xs">
+            <span class="text-[10px] font-extrabold text-slate-500 uppercase">Total SKS Diambil:</span>
+            <span id="ringkasSks" class="text-xs font-black text-[#0055A5]">0 SKS</span>
+          </div>
+          <div class="bg-white/90 border border-slate-200 rounded-xl px-4 py-1.5 flex items-center gap-2 shadow-xs">
+            <span class="text-[10px] font-extrabold text-slate-500 uppercase">Indeks Prestasi (IPS):</span>
+            <span id="ringkasIps" class="text-xs font-black text-slate-400">0.00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tabel Lembar Nilai KHS Resmi -->
+      <section class="glass-acrylic rounded-[28px] p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/60 pb-4">
+          <div>
+            <h3 id="labelJudulSemester" class="text-base font-black text-slate-900 tracking-tight">Rincian Kartu Hasil Studi</h3>
+            <p id="labelSubJudulKhs" class="text-xs text-slate-500 font-semibold mt-0.5">Mata kuliah yang terdaftar pada semester ini</p>
+          </div>
+          <span id="labelStatusKunciKhs" class="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-xl">
+            Sedang Berjalan
+          </span>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
+                <th class="py-3 px-3">No</th>
+                <th class="py-3 px-3">Kode MK</th>
+                <th class="py-3 px-4">Nama Mata Kuliah</th>
+                <th class="py-3 px-2 text-center">SKS</th>
+                <th class="py-3 px-3 text-center">Nilai Angka</th>
+                <th class="py-3 px-2 text-center">Nilai Huruf</th>
+                <th class="py-3 px-2 text-center">Bobot Mutu</th>
+                <th class="py-3 px-3 text-center">Mutu (SKS x Bobot)</th>
+                <th class="py-3 px-3 text-center">Keterangan</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyKhs" class="divide-y divide-white/50 font-medium text-slate-700">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Kartu Footer -->
+        <div class="pt-4 border-t border-white/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold">
+          <div class="flex items-center gap-2 text-slate-600">
+            <span>Predikat Kelulusan Semester:</span>
+            <span id="badgePredikat" class="px-2.5 py-0.5 rounded-lg text-xs font-black bg-slate-100 text-slate-600 border border-slate-200">Perkuliahan Berjalan</span>
+          </div>
+          <div class="text-right">
+            <span class="text-slate-500">Maksimal Beban SKS Semester Berikutnya:</span>
+            <strong id="kuotaSksDepan" class="text-slate-900 font-bold ml-1">20 SKS</strong>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SCRIPT ENGINE KHS FILTER VALIDASI OTOMATIS -->
+  <script>
+    const STORAGE_ACTIVE_USER = 'siakad_active_user';
+    const STORAGE_NILAI = 'siakad_db_nilai';
+    const STORAGE_ENROLLED = 'siakad_krs_enrolled_codes';
+    const STORAGE_MASTER_MATKUL = 'siakad_master_matkul_db';
+
+    let activeUser = null;
+    let semesterTerpilih = 1;
+
+    const arsipAhmadFauzi = {
+      1: [
+        { kode: 'IF1101', matkul: 'Dasar Pemrograman', sks: 3, nilaiAngka: '88.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'IF1102', matkul: 'Kalkulus I', sks: 3, nilaiAngka: '82.5', nilaiHuruf: 'A-', bobot: 3.7 },
+        { kode: 'IF1103', matkul: 'Pengantar Teknologi Informasi', sks: 2, nilaiAngka: '90.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'KU1101', matkul: 'Pendidikan Agama', sks: 2, nilaiAngka: '86.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'KU1102', matkul: 'Bahasa Indonesia', sks: 2, nilaiAngka: '80.0', nilaiHuruf: 'A-', bobot: 3.7 }
+      ],
+      2: [
+        { kode: 'IF2101', matkul: 'Algoritma & Struktur Data', sks: 4, nilaiAngka: '86.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'IF2102', matkul: 'Arsitektur Komputer', sks: 3, nilaiAngka: '81.0', nilaiHuruf: 'A-', bobot: 3.7 },
+        { kode: 'IF2103', matkul: 'Matematika Diskrit', sks: 3, nilaiAngka: '84.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'IF2104', matkul: 'Aljabar Linier & Matriks', sks: 3, nilaiAngka: '88.5', nilaiHuruf: 'A', bobot: 4.0 }
+      ],
+      3: [
+        { kode: 'IF3101', matkul: 'Pemrograman Berorientasi Objek', sks: 4, nilaiAngka: '92.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'IF3102', matkul: 'Sistem Operasi', sks: 3, nilaiAngka: '87.0', nilaiHuruf: 'A', bobot: 4.0 },
+        { kode: 'IF3103', matkul: 'Probabilitas & Statistika', sks: 3, nilaiAngka: '85.0', nilaiHuruf: 'A', bobot: 4.0 }
+      ]
+    };
+
+    function getActiveUser() {
+      try {
+        const raw = localStorage.getItem(STORAGE_ACTIVE_USER);
+        if (raw) return JSON.parse(raw);
+      } catch (e) { console.error(e); }
+
+      return {
+        role: 'mahasiswa',
+        nim: '220101001',
+        nama: 'Ahmad Fauzi',
+        prodi: 'Teknik Informatika (S1)',
+        semester: 4,
+        status: 'Aktif'
+      };
+    }
+
+    function inisialisasiKhs() {
+      activeUser = getActiveUser();
+
+      const inisial = (activeUser.nama || 'M').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+      document.getElementById('khsAvatar').innerText = inisial;
+      const sidebarAvatar = document.getElementById('userSidebarAvatarKhs');
+      if (sidebarAvatar) sidebarAvatar.innerText = inisial;
+
+      document.getElementById('khsNamaMhs').innerText = activeUser.nama || 'Mahasiswa Terdaftar';
+      document.getElementById('khsNimMhs').innerText = activeUser.nim || '-';
+      document.getElementById('khsProdiMhs').innerText = activeUser.prodi || activeUser.prodiNama || 'Teknik Informatika (S1)';
+      document.getElementById('khsSemesterDisplay').innerText = `Semester ${activeUser.semester || 1}`;
+
+      const selectSmtr = document.getElementById('selectSemesterKhs');
+      selectSmtr.innerHTML = '';
+      const currentSmtr = parseInt(activeUser.semester) || 1;
+
+      for (let i = 1; i <= currentSmtr; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Semester ${i} ${i % 2 === 0 ? '(Genap)' : '(Ganjil)'}`;
+        if (i === currentSmtr) opt.selected = true;
+        selectSmtr.appendChild(opt);
+      }
+
+      semesterTerpilih = currentSmtr;
+      renderLembarKhs();
+    }
+
+    function gantiSemester(val) {
+      semesterTerpilih = parseInt(val);
+      renderLembarKhs();
+    }
+
+    function renderLembarKhs() {
+      document.getElementById('labelJudulSemester').innerText = `Rincian Nilai KHS Semester ${semesterTerpilih}`;
+      const tbody = document.getElementById('tbodyKhs');
+      tbody.innerHTML = '';
+
+      const isAhmad = (activeUser.nim === '220101001');
+
+      if (isAhmad && semesterTerpilih < 4 && arsipAhmadFauzi[semesterTerpilih]) {
+        renderTabelDenganNilai(arsipAhmadFauzi[semesterTerpilih]);
+        return;
+      }
+
+      const enrolledCodes = JSON.parse(localStorage.getItem(`${STORAGE_ENROLLED}_${activeUser.nim}`) || '[]');
+      const masterMatkul = JSON.parse(localStorage.getItem(STORAGE_MASTER_MATKUL) || '[]');
+      const dbNilai = JSON.parse(localStorage.getItem(STORAGE_NILAI) || '[]');
+
+      // FILTER ANTI MATKUL SAMPAH: Hanya tampilkan mata kuliah yang sah ada di kurikulum BAAK
+      const validEnrolled = enrolledCodes
+        .map(kode => masterMatkul.find(m => m.kode === kode))
+        .filter(m => m !== undefined);
+
+      if (validEnrolled.length === 0) {
+        document.getElementById('ringkasSks').innerText = '0 SKS';
+        document.getElementById('ringkasIps').innerText = '0.00';
+        document.getElementById('badgePredikat').innerText = 'Belum Mengambil KRS';
+        document.getElementById('kuotaSksDepan').innerText = '20 SKS (Paket Awal)';
+        
+        const badgeKunci = document.getElementById('labelStatusKunciKhs');
+        badgeKunci.className = 'text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl';
+        badgeKunci.innerText = '⚠️ KRS Belum Diisi';
+
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-12 text-center text-slate-400">
+              <div class="text-3xl mb-2">📋</div>
+              <h4 class="text-sm font-extrabold text-slate-800">Belum Ada Rencana Studi</h4>
+              <p class="text-xs text-slate-500 max-w-md mx-auto mt-1">
+                Kamu belum memilih mata kuliah pada semester ini. Silakan masuk ke menu <b>KRS Online</b> terlebih dahulu untuk mengambil kelas perkuliahan.
+              </p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let totalSks = 0;
+      let totalMutu = 0;
+      let countDinilai = 0;
+
+      validEnrolled.forEach((matkulInfo, idx) => {
+        const kode = matkulInfo.kode;
+        const sksMatkul = Number(matkulInfo.sks) || 3;
+        totalSks += sksMatkul;
+
+        const nilaiDosen = dbNilai.find(n => n.nim === activeUser.nim && (n.kode === kode || n.matkul === matkulInfo.nama));
+
+        let nilaiAngka = "0.0";
+        let nilaiHuruf = "-";
+        let bobot = 0.0;
+        let mutu = 0.0;
+        let keterangan = "Sedang Berjalan";
+        let badgeKet = "bg-slate-100 text-slate-600 border-slate-200";
+
+        if (nilaiDosen) {
+          countDinilai++;
+          nilaiAngka = String(nilaiDosen.nilaiAngka);
+          nilaiHuruf = nilaiDosen.nilaiHuruf;
+          bobot = Number(nilaiDosen.bobot) || 0;
+          mutu = sksMatkul * bobot;
+          totalMutu += mutu;
+
+          if (nilaiDosen.statusLulus === 'LULUS') {
+            keterangan = "LULUS";
+            badgeKet = "bg-emerald-100 text-emerald-800 border-emerald-300";
+          } else {
+            keterangan = "TIDAK LULUS";
+            badgeKet = "bg-rose-100 text-rose-800 border-rose-300";
+          }
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/40 transition';
+        tr.innerHTML = `
+          <td class="py-3.5 px-3 font-bold text-slate-500">${idx + 1}</td>
+          <td class="py-3.5 px-3 font-mono font-bold text-[#0055A5]">${kode}</td>
+          <td class="py-3.5 px-4 font-bold text-slate-900">${matkulInfo.nama}</td>
+          <td class="py-3.5 px-2 text-center font-bold text-slate-700">${sksMatkul}</td>
+          <td class="py-3.5 px-3 text-center font-mono font-bold ${nilaiDosen ? 'text-slate-900' : 'text-slate-400'}">${nilaiAngka}</td>
+          <td class="py-3.5 px-2 text-center">
+            <span class="px-2 py-0.5 rounded-lg text-xs font-black ${nilaiDosen ? (nilaiDosen.statusLulus === 'LULUS' ? 'bg-blue-100 text-[#0055A5]' : 'bg-rose-100 text-rose-700') : 'bg-slate-100 text-slate-400'}">${nilaiHuruf}</span>
+          </td>
+          <td class="py-3.5 px-2 text-center font-mono font-bold ${nilaiDosen ? 'text-slate-800' : 'text-slate-400'}">${bobot.toFixed(1)}</td>
+          <td class="py-3.5 px-3 text-center font-mono font-black ${nilaiDosen ? 'text-slate-900' : 'text-slate-400'}">${mutu.toFixed(1)}</td>
+          <td class="py-3.5 px-3 text-center">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${badgeKet}">
+              ${keterangan}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('ringkasSks').innerText = `${totalSks} SKS`;
+
+      const badgeKunci = document.getElementById('labelStatusKunciKhs');
+      if (countDinilai === validEnrolled.length) {
+        badgeKunci.className = 'text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-xl';
+        badgeKunci.innerText = '✓ Seluruh Nilai Sah Tervalidasi';
+      } else if (countDinilai > 0) {
+        badgeKunci.className = 'text-xs font-bold text-blue-800 bg-blue-50 border border-blue-200 px-3 py-1 rounded-xl';
+        badgeKunci.innerText = `Sebagian Dinilai (${countDinilai}/${validEnrolled.length})`;
+      } else {
+        badgeKunci.className = 'text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl';
+        badgeKunci.innerText = '⏳ Perkuliahan Berjalan (Nilai Belum Diinput Dosen)';
+      }
+
+      const ips = countDinilai > 0 ? (totalMutu / totalSks).toFixed(2) : "0.00";
+      const elIps = document.getElementById('ringkasIps');
+      elIps.innerText = ips;
+      elIps.className = countDinilai > 0 ? 'text-xs font-black text-emerald-600' : 'text-xs font-black text-slate-400';
+
+      const predikatEl = document.getElementById('badgePredikat');
+      const kuotaEl = document.getElementById('kuotaSksDepan');
+      if (countDinilai === 0) {
+        predikatEl.innerText = 'Perkuliahan Berjalan';
+        kuotaEl.innerText = '20 SKS (Paket Awal)';
+      } else if (parseFloat(ips) >= 3.50) {
+        predikatEl.innerText = 'Dengan Pujian (Cumlaude)';
+        kuotaEl.innerText = '24 SKS (Maksimal)';
+      } else if (parseFloat(ips) >= 3.00) {
+        predikatEl.innerText = 'Sangat Memuaskan';
+        kuotaEl.innerText = '22 SKS';
+      } else {
+        predikatEl.innerText = 'Perlu Peningkatan';
+        kuotaEl.innerText = '20 SKS';
+      }
+    }
+
+    function renderTabelDenganNilai(list) {
+      const tbody = document.getElementById('tbodyKhs');
+      let totalSks = 0;
+      let totalMutu = 0;
+
+      list.forEach((item, idx) => {
+        const mutu = item.sks * item.bobot;
+        totalSks += item.sks;
+        totalMutu += mutu;
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-white/40 transition">
+            <td class="py-3 px-3 font-bold text-slate-500">${idx + 1}</td>
+            <td class="py-3 px-3 font-mono font-bold text-[#0055A5]">${item.kode}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${item.matkul}</td>
+            <td class="py-3 px-2 text-center font-bold text-slate-700">${item.sks}</td>
+            <td class="py-3 px-3 text-center font-mono font-bold">${item.nilaiAngka}</td>
+            <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded-lg text-xs font-black bg-blue-100 text-[#0055A5]">${item.nilaiHuruf}</span></td>
+            <td class="py-3 px-2 text-center font-mono font-bold">${item.bobot.toFixed(1)}</td>
+            <td class="py-3 px-3 text-center font-mono font-black">${mutu.toFixed(1)}</td>
+            <td class="py-3 px-3 text-center"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">LULUS</span></td>
+          </tr>
+        `;
+      });
+
+      const ips = (totalMutu / totalSks).toFixed(2);
+      document.getElementById('ringkasSks').innerText = `${totalSks} SKS`;
+      document.getElementById('ringkasIps').innerText = ips;
+      document.getElementById('ringkasIps').className = 'text-xs font-black text-emerald-600';
+      document.getElementById('labelStatusKunciKhs').className = 'text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-xl';
+      document.getElementById('labelStatusKunciKhs').innerText = '✓ Arsip Nilai Sah';
+    }
+
+    document.addEventListener('DOMContentLoaded', inisialisasiKhs);
+  </script>
+</body>
+</html>

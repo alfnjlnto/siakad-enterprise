@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Dashboard Mahasiswa - SIAKAD</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS & Chart.js -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-acrylic {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(26px) saturate(160%);
+      -webkit-backdrop-filter: blur(26px) saturate(160%);
+      border: 1.5px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.08);
+    }
+    .glass-sidebar {
+      background: rgba(255, 255, 255, 0.70);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 85, 165, 0.25);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 relative min-h-screen overflow-x-hidden select-none bg-slate-100">
+
+  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <div class="relative z-10 flex min-h-screen p-4 lg:p-6 gap-6 max-w-[1720px] mx-auto">
+    
+    <!-- Dock Navigasi Kiri Mahasiswa -->
+    <aside class="w-[74px] shrink-0 sticky top-6 z-30">
+      <div class="glass-sidebar rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
+        <div class="flex flex-col items-center gap-6 w-full">
+          <button onclick="window.toggleAppSwitcher && toggleAppSwitcher()" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 hover:text-[#0055A5] hover:bg-white/60 transition cursor-pointer" type="button" title="Pindah Modul">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect height="7" rx="2" width="7" x="3" y="3"></rect>
+              <rect height="7" rx="2" width="7" x="14" y="3"></rect>
+              <rect height="7" rx="2" width="7" x="3" y="14"></rect>
+              <rect height="7" rx="2" width="7" x="14" y="14"></rect>
+            </svg>
+          </button>
+          
+          <div class="w-8 h-[1px] bg-slate-300/60"></div>
+          
+          <nav class="flex flex-col items-center gap-3 w-full">
+            <a href="dashboard.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="Dashboard Utama">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </a>
+            <a href="krs.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Rencana Studi (KRS)">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            </a>
+            <a href="khs.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Hasil Studi (KHS)">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </a>
+            <a href="portal.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Kembali ke Portal 9 Modul">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+            </a>
+          </nav>
+        </div>
+        <div id="dockRoleBadge" class="w-11 h-11 rounded-2xl bg-[#0055A5] text-white font-black text-xs flex items-center justify-center shadow-sm">MHS</div>
+      </div>
+    </aside>
+
+    <!-- Workspace Konten Utama -->
+    <main class="flex-1 flex flex-col gap-6 pb-12">
+      
+      <!-- Banner Sapaan Personal Dinamis -->
+      <header class="glass-acrylic rounded-[28px] p-6 lg:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div class="flex items-center gap-4">
+          <div id="mhsAvatar" class="w-16 h-16 rounded-2xl bg-[#0055A5] text-white flex items-center justify-center font-black text-2xl shadow-md shrink-0">
+            M
+          </div>
+          <div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <h1 id="mhsNama" class="text-2xl font-black text-slate-900 tracking-tight">Memuat Data Mahasiswa...</h1>
+              <span id="mhsStatusBadge" class="px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                Aktif
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 font-semibold mt-1 flex items-center gap-2 flex-wrap">
+              <span>NIM: <strong id="mhsNim" class="font-mono text-[#0055A5] font-bold">-</strong></span>
+              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+              <span id="mhsProdi">-</span>
+              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+              <span id="mhsSemester">Semester -</span>
+              <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+              <span id="mhsDosenPa">Dosen PA: Dr. Ir. Hendra Wijaya, M.T.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a href="krs.html" class="px-4 py-2.5 rounded-xl bg-[#0055A5] hover:bg-blue-800 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer">
+            <span>📋 Pengisian KRS Online</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- 4 Kartu Metrik Akademik Dinamis -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- IPK -->
+        <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+          <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Indeks Prestasi Kumulatif (IPK)</span>
+          <div id="statIpk" class="text-4xl font-black text-slate-900 my-2">0.00</div>
+          <p id="statIpkDesc" class="text-[11px] text-slate-500 font-medium">Mahasiswa Baru (Belum Dinilai)</p>
+        </div>
+
+        <!-- SKS Tempuh Selesai -->
+        <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+          <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Total SKS Diperoleh</span>
+          <div id="statSksLulus" class="text-4xl font-black text-[#0055A5] my-2">0 SKS</div>
+          <p id="statSksDesc" class="text-[11px] text-slate-500 font-medium">Dari beban 144 SKS kelulusan</p>
+        </div>
+
+        <!-- SKS Semester Berjalan -->
+        <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+          <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Beban Studi Semester Ini</span>
+          <div id="statSksSemester" class="text-4xl font-black text-indigo-700 my-2">20 SKS</div>
+          <p id="statSksSemesterDesc" class="text-[11px] text-emerald-700 font-bold">✓ Kuota Maksimal 24 SKS</p>
+        </div>
+
+        <!-- Keuangan UKT -->
+        <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+          <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Clearance Keuangan UKT</span>
+          <div id="statUkt" class="text-3xl font-black text-emerald-600 my-2">Lunas</div>
+          <p class="text-[11px] text-slate-500 font-medium">Bebas Administrasi Kuliah</p>
+        </div>
+
+      </section>
+
+      <!-- Konten Utama: Grafik Prestasi vs Jadwal / Panduan Maba -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Kolom Kiri: Tren Indeks Prestasi -->
+        <div class="lg:col-span-7 glass-acrylic rounded-[28px] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-extrabold text-slate-900">Perkembangan Indeks Prestasi Semester (IPS)</h3>
+              <span id="chartTagInfo" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-[#0055A5]">Riwayat Studi</span>
+            </div>
+            <p id="chartDescInfo" class="text-xs text-slate-500 mb-4">Grafik nilai IPS per semester yang telah diselesaikan</p>
+          </div>
+
+          <!-- Wadah Kanvas Grafik / Placeholder Maba -->
+          <div id="chartContainer" class="h-64 w-full relative flex items-center justify-center">
+            <canvas id="chartIpsSemester"></canvas>
+            <div id="placeholderMaba" class="hidden text-center p-6 space-y-2">
+              <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 mx-auto flex items-center justify-center text-xl font-bold">
+                📈
+              </div>
+              <h4 class="text-sm font-extrabold text-slate-800">Belum Ada Riwayat Nilai</h4>
+              <p class="text-xs text-slate-500 max-w-sm mx-auto">
+                Kamu terdaftar sebagai mahasiswa baru di semester ini. Grafik perkembangan nilai akan otomatis terbentuk setelah dosen menginput DPNA di akhir semester.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Jadwal Kuliah / Panduan Mahasiswa Baru -->
+        <div class="lg:col-span-5 glass-acrylic rounded-[28px] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3 border-b border-white/60 pb-3">
+              <h3 id="panelKananTitle" class="text-sm font-extrabold text-slate-900">Agenda &amp; Jadwal Perkuliahan</h3>
+              <span class="text-xs font-bold text-[#0055A5]">Hari Ini</span>
+            </div>
+            
+            <div id="panelKananContent" class="space-y-3">
+              <!-- Diisi otomatis oleh JavaScript -->
+            </div>
+          </div>
+
+          <div class="pt-4 mt-4 border-t border-white/60 flex items-center justify-between text-xs">
+            <span class="text-slate-500 font-medium">Status Verifikasi KRS:</span>
+            <span id="krsApprovalStatus" class="font-extrabold text-emerald-700">✓ Disetujui Dosen PA</span>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SCRIPT LOGIKA MAHASISWA BARU VS AHMAD FAUZI -->
+  <script>
+    const STORAGE_ACTIVE_USER = 'siakad_active_user';
+    let chartInstance = null;
+
+    function muatDashboardMahasiswa() {
+      // 1. Ambil sesi user yang sedang aktif
+      let activeUser = null;
+      try {
+        const raw = localStorage.getItem(STORAGE_ACTIVE_USER);
+        if (raw) activeUser = JSON.parse(raw);
+      } catch (e) { console.error(e); }
+
+      // Default jika belum ada login, jadikan Ahmad Fauzi
+      if (!activeUser) {
+        activeUser = {
+          role: "mahasiswa",
+          nim: "220101001",
+          nama: "Ahmad Fauzi",
+          prodi: "Teknik Informatika (S1)",
+          semester: 4,
+          ukt: "Lunas"
+        };
+        localStorage.setItem(STORAGE_ACTIVE_USER, JSON.stringify(activeUser));
+      }
+
+      // 2. Render Identitas Header
+      const namaEl = document.getElementById('mhsNama');
+      const nimEl = document.getElementById('mhsNim');
+      const prodiEl = document.getElementById('mhsProdi');
+      const semesterEl = document.getElementById('mhsSemester');
+      const avatarEl = document.getElementById('mhsAvatar');
+
+      namaEl.innerText = activeUser.nama || "Mahasiswa Terdaftar";
+      nimEl.innerText = activeUser.nim || activeUser.username || "-";
+      prodiEl.innerText = activeUser.prodi || activeUser.prodiNama || "Teknik Informatika (S1)";
+      semesterEl.innerText = `Semester ${activeUser.semester || 2}`;
+
+      const inisial = (activeUser.nama || "M").split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+      avatarEl.innerText = inisial;
+
+      // Status UKT
+      const statUktEl = document.getElementById('statUkt');
+      if (activeUser.ukt === 'Belum Lunas') {
+        statUktEl.innerText = 'Tunggakan';
+        statUktEl.className = 'text-3xl font-black text-rose-600 my-2';
+      } else {
+        statUktEl.innerText = 'Lunas';
+        statUktEl.className = 'text-3xl font-black text-emerald-600 my-2';
+      }
+
+      // 3. LOGIKA PEMBEDA: AHMAD FAUZI VS MAHASISWA BARU (ALFIAN / HASIL PMB)
+      const isAhmadFauzi = (activeUser.nim === "220101001");
+
+      if (isAhmadFauzi) {
+        // === KONDISI AHMAD FAUZI (SEMESTER 4 - SUDAH ADA NILAI KUMULATIF) ===
+        document.getElementById('statIpk').innerText = '3.82';
+        document.getElementById('statIpkDesc').innerText = 'Predikat: Pujian (Cumlaude)';
+        document.getElementById('statSksLulus').innerText = '72 SKS';
+        document.getElementById('statSksDesc').innerText = '50% dari 144 SKS kelulusan';
+        document.getElementById('statSksSemester').innerText = '21 SKS';
+        document.getElementById('krsApprovalStatus').innerText = '✓ Disetujui Dosen PA';
+        document.getElementById('krsApprovalStatus').className = 'font-extrabold text-emerald-700';
+
+        renderChart([3.75, 3.80, 3.90]); // IPS Semester 1, 2, 3
+        renderJadwalAhmad();
+      } else {
+        // === KONDISI MAHASISWA BARU (ALFIAN JULIANTO / PMB) ===
+        document.getElementById('statIpk').innerText = '0.00';
+        document.getElementById('statIpkDesc').innerText = 'Mahasiswa Baru (Belum ada KHS)';
+        document.getElementById('statSksLulus').innerText = '0 SKS';
+        document.getElementById('statSksDesc').innerText = 'Tahap Awal Perkuliahan';
+        document.getElementById('statSksSemester').innerText = '20 SKS';
+        document.getElementById('krsApprovalStatus').innerText = '⏳ Paket Semester 1 Siap Ambil';
+        document.getElementById('krsApprovalStatus').className = 'font-extrabold text-amber-700';
+
+        // Tampilkan placeholder kosong untuk Mahasiswa Baru
+        document.getElementById('chartIpsSemester').classList.add('hidden');
+        document.getElementById('placeholderMaba').classList.remove('hidden');
+        renderPanduanMaba(activeUser.nama);
+      }
+    }
+
+    // Grafik IPS untuk Mahasiswa yang sudah punya nilai (Ahmad)
+    function renderChart(ipsData) {
+      document.getElementById('chartIpsSemester').classList.remove('hidden');
+      document.getElementById('placeholderMaba').classList.add('hidden');
+
+      const ctx = document.getElementById('chartIpsSemester').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Semester 1', 'Semester 2', 'Semester 3'],
+          datasets: [{
+            label: 'Indeks Prestasi Semester (IPS)',
+            data: ipsData,
+            borderColor: '#0055A5',
+            backgroundColor: 'rgba(0, 85, 165, 0.1)',
+            fill: true,
+            tension: 0.35,
+            borderWidth: 3,
+            pointBackgroundColor: '#0055A5',
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 2.0, max: 4.0, ticks: { stepSize: 0.5 } }
+          }
+        }
+      });
+    }
+
+    function renderJadwalAhmad() {
+      const panel = document.getElementById('panelKananContent');
+      panel.innerHTML = `
+        <div class="p-3.5 rounded-2xl bg-white/70 border border-white flex items-center justify-between shadow-xs">
+          <div>
+            <span class="text-[10px] font-extrabold text-[#0055A5] uppercase">08:00 - 10:30 WIB • Lab 03</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-0.5">Sistem Basis Data (3 SKS)</h4>
+            <p class="text-[11px] text-slate-500">Dr. Ir. Hendra Wijaya, M.T.</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-emerald-100 text-emerald-800">Sedang Kuliah</span>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white/70 border border-white flex items-center justify-between shadow-xs">
+          <div>
+            <span class="text-[10px] font-extrabold text-slate-500 uppercase">13:00 - 15:30 WIB • R. Teori 204</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-0.5">Rekayasa Perangkat Lunak (3 SKS)</h4>
+            <p class="text-[11px] text-slate-500">Dr. Aris Subagyo, M.T.</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-blue-100 text-[#0055A5]">Siang Nanti</span>
+        </div>
+      `;
+    }
+
+    function renderPanduanMaba(nama) {
+      const panel = document.getElementById('panelKananContent');
+      document.getElementById('panelKananTitle').innerText = 'Panduan Langkah Awal Mahasiswa Baru';
+      panel.innerHTML = `
+        <div class="p-3.5 rounded-2xl bg-blue-50/80 border border-blue-200 space-y-1.5">
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0055A5]">
+            <span>👋</span>
+            <span>Selamat Datang di Kampus, ${nama}!</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            Akun mahasiswa kamu telah berhasil diaktifkan oleh BAAK. Kamu dapat langsung mengambil paket mata kuliah perdana di menu KRS.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white/70 border border-white flex items-center justify-between shadow-xs">
+          <div>
+            <span class="text-[10px] font-extrabold text-emerald-700 uppercase">Paket Perkuliahan Baru</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-0.5">Paket 20 SKS Semester Ganjil</h4>
+            <p class="text-[11px] text-slate-500">Kalkulus, Algoritma, PTI, Bahasa Inggris</p>
+          </div>
+          <a href="krs.html" class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-[#0055A5] text-white hover:bg-blue-800 transition">Ambil KRS</a>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', muatDashboardMahasiswa);
+  </script>
+
+  <script src="../assets/js/app-switcher.js"></script>
+</body>
+</html>

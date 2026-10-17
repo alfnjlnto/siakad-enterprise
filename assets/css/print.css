@@ -1,0 +1,115 @@
+/* ========================================================
+   UNIVERSAL PRINT ENGINE - SIAKAD
+   Otomatis ubah tampilan web jadi kertas dokumen resmi
+   ======================================================== */
+
+/* 1. Sembunyikan elemen khusus cetak pas di layar monitor biasa */
+@media screen {
+  .print-only,
+  .print-khs-only,
+  .hanya-cetak {
+    display: none !important;
+  }
+}
+
+/* 2. Format cetak bersih otomatis pas tekan Print / Ctrl+P */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm 15mm 15mm;
+  }
+
+  /* Paksa kertas jadi putih bersih & teks hitam */
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 10pt !important;
+    overflow: visible !important;
+  }
+
+  /* Buang wallpaper foto kampus & semua background tetap */
+  .fixed,
+  [class*="fixed inset-0"],
+  img:not(.print-logo) {
+    display: none !important;
+  }
+
+  /* Sembunyikan navigasi, tombol, switcher, & grafik radar */
+  aside,
+  header,
+  footer,
+  nav,
+  button,
+  select,
+  input,
+  canvas,
+  #appSwitcherOverlay,
+  [data-purpose*="switcher"],
+  [data-purpose*="filter"],
+  [data-purpose*="actions"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Sembunyikan kartu widget atas & grafik yang bikin halaman gelap */
+  main > section:first-of-type,
+  main > div:first-of-type:not(.print-only):not(.print-khs-only):not(.hanya-cetak) {
+    display: none !important;
+  }
+
+  /* Buang efek blur kaca, garis transparan, & bayangan gelap */
+  * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  div, section, main, article {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Munculkan kop surat & kolom tanda tangan */
+  .print-only,
+  .print-khs-only,
+  .hanya-cetak {
+    display: block !important;
+  }
+
+  /* Rapikan tabel nilai KHS / KRS bergaris hitam tegas */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  th {
+    background-color: #f1f5f9 !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+    padding: 6px 8px !important;
+    font-size: 9.5pt !important;
+    font-weight: bold !important;
+    text-align: center !important;
+  }
+
+  td {
+    border: 1px solid #000000 !important;
+    padding: 5px 8px !important;
+    color: #000000 !important;
+    font-size: 9pt !important;
+  }
+
+  /* Sembunyikan kolom aksi paling kanan kalau ada */
+  th:last-child,
+  td:last-child {
+    display: none !important;
+  }
+}

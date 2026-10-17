@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Pusat Kendali Akademik BAAK - SIAKAD Enterprise</title>
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-acrylic {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1.5px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.08);
+    }
+    .glass-sidebar {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+    }
+    .glass-input {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      transition: all 0.2s ease;
+    }
+    .glass-input:focus {
+      background: #ffffff;
+      border-color: #0055A5;
+      box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.15);
+      outline: none;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 85, 165, 0.25);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 relative min-h-screen overflow-x-hidden select-none bg-slate-100">
+
+  <!-- Background Wallpaper Kaca Perpustakaan -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <img alt="Perpustakaan Universitas Modern" class="w-full h-full object-cover filter blur-[6px] scale-105 brightness-[1.02]" 
+         src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920&auto=format&fit=crop">
+    <div class="absolute inset-0 bg-white/20 backdrop-brightness-105"></div>
+  </div>
+
+  <div class="relative z-10 flex min-h-screen p-4 lg:p-6 gap-6 max-w-[1720px] mx-auto">
+    
+    <!-- Dock Navigasi Kiri BAAK -->
+    <aside class="w-[74px] shrink-0 sticky top-6 z-30">
+      <div class="glass-sidebar rounded-[32px] py-6 px-3 flex flex-col items-center justify-between min-h-[calc(100vh-3rem)]">
+        <div class="flex flex-col items-center gap-6 w-full">
+          <!-- Tombol Home / Portal SSO -->
+          <a href="portal.html" class="w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 hover:text-[#0055A5] hover:bg-white/60 transition cursor-pointer" title="Kembali ke Portal SSO">
+            <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          </a>
+          
+          <div class="w-8 h-[1px] bg-slate-300/60"></div>
+          
+          <nav class="flex flex-col items-center gap-3 w-full">
+            <a href="data-master.html" class="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0055A5] text-white shadow-md shadow-[#0055A5]/30 ring-4 ring-[#0055A5]/20" title="Pusat Data BAAK">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7z"></path><path d="M9 12h6m-6 4h4"></path></svg>
+            </a>
+            <a href="portal.html" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white/60 transition" title="Menu Modul">
+              <svg class="w-6 h-6 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+            </a>
+          </nav>
+        </div>
+        <div class="w-11 h-11 rounded-2xl bg-indigo-700 text-white font-black text-xs flex items-center justify-center shadow-sm tracking-wider">BAAK</div>
+      </div>
+    </aside>
+
+    <!-- Workspace Utama BAAK -->
+    <main class="flex-1 flex flex-col gap-6 pb-12">
+      
+      <!-- Header Dashboard -->
+      <header class="glass-acrylic rounded-[28px] px-7 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3">
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Pusat Kendali Akademik BAAK</h1>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">
+              Admin Pusat
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 font-medium">
+            Kelola Mahasiswa (PMB), Dosen, Kurikulum Mata Kuliah &amp; Tagihan Perkuliahan
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 flex-wrap">
+          <button onclick="seederOtomatisKampus()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer">
+            <span>⚡ Reset Data Awal</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Tab Navigasi -->
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <button onclick="pindahTab('analitik')" id="tabBtn-analitik" class="px-5 py-2.5 rounded-2xl font-bold text-xs transition cursor-pointer bg-[#0055A5] text-white shadow-sm">
+          📊 Analitik &amp; Statistik
+        </button>
+        <button onclick="pindahTab('mahasiswa')" id="tabBtn-mahasiswa" class="px-5 py-2.5 rounded-2xl font-bold text-xs transition cursor-pointer bg-white/70 text-slate-700 hover:bg-white">
+          🎓 Master Mahasiswa &amp; PMB (<span id="tabCountMhs">0</span>)
+        </button>
+        <button onclick="pindahTab('dosen')" id="tabBtn-dosen" class="px-5 py-2.5 rounded-2xl font-bold text-xs transition cursor-pointer bg-white/70 text-slate-700 hover:bg-white">
+          👨‍🏫 Master Dosen (<span id="tabCountDosen">0</span>)
+        </button>
+        <button onclick="pindahTab('matkul')" id="tabBtn-matkul" class="px-5 py-2.5 rounded-2xl font-bold text-xs transition cursor-pointer bg-white/70 text-slate-700 hover:bg-white">
+          📚 Kurikulum Mata Kuliah (<span id="tabCountMatkul">0</span>)
+        </button>
+      </div>
+
+      <!-- ================= TAB 1: ANALITIK (DENGAN CHART AKTIF) ================= -->
+      <div id="tabContent-analitik" class="space-y-6">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+            <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Total Mahasiswa Terdaftar</span>
+            <div id="kpiTotalMhs" class="text-4xl font-black text-slate-900 my-2">0</div>
+            <div class="text-[11px] text-slate-500 font-medium">Teknik Informatika &amp; Sistem Informasi</div>
+          </div>
+          <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+            <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Status Keaktifan</span>
+            <div class="flex items-baseline gap-2 my-2">
+              <span id="kpiAktifMhs" class="text-4xl font-black text-emerald-600">0</span>
+              <span class="text-xs text-slate-500 font-bold">Aktif Kuliah</span>
+            </div>
+            <div class="text-[11px] text-slate-500 font-semibold flex gap-2">
+              <span id="kpiCutiMhs" class="text-amber-600 font-bold">0 Cuti</span> • 
+              <span id="kpiLulusMhs" class="text-blue-600 font-bold">0 Lulus</span>
+            </div>
+          </div>
+          <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+            <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Clearance Keuangan UKT</span>
+            <div id="kpiUktRate" class="text-4xl font-black text-[#0055A5] my-2">0%</div>
+            <p id="kpiUktDetail" class="text-[11px] text-slate-500 font-medium">0 Mahasiswa Bebas Tagihan</p>
+          </div>
+          <div class="glass-acrylic rounded-[24px] p-6 flex flex-col justify-between">
+            <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Total Mata Kuliah Ditawarkan</span>
+            <div id="kpiTotalMatkul" class="text-4xl font-black text-indigo-700 my-2">0</div>
+            <p class="text-[11px] text-emerald-700 font-bold">✓ Terhubung ke Modul KRS Online</p>
+          </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-7 glass-acrylic rounded-[28px] p-6 flex flex-col">
+            <h3 class="text-sm font-extrabold text-slate-900 mb-1">Sebaran Mahasiswa per Angkatan</h3>
+            <p class="text-xs text-slate-500 mb-3">Distribusi angkatan Teknik Informatika vs Sistem Informasi</p>
+            <div class="h-64 w-full relative">
+              <canvas id="chartBatchProdi"></canvas>
+            </div>
+          </div>
+          <div class="lg:col-span-5 glass-acrylic rounded-[28px] p-6 flex flex-col">
+            <h3 class="text-sm font-extrabold text-slate-900 mb-1">Proporsi Status Akademik</h3>
+            <p class="text-xs text-slate-500 mb-3">Perbandingan mahasiswa Aktif, Cuti, dan Lulus</p>
+            <div class="h-64 w-full flex items-center justify-center relative">
+              <canvas id="chartStatusKeaktifan"></canvas>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ================= TAB 2: MASTER MAHASISWA & PMB ================= -->
+      <div id="tabContent-mahasiswa" class="hidden space-y-4">
+        <section class="glass-acrylic rounded-[28px] p-6">
+          
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-white/60">
+            <div class="flex items-center gap-3 flex-wrap flex-1">
+              <div class="bg-white/90 border border-slate-300 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-xs">
+                <span class="text-[10px] font-extrabold text-slate-500 uppercase">Tampilkan:</span>
+                <select id="mhsPageSize" onchange="gantiPageSizeMhs(this.value)" class="text-xs font-bold text-[#0055A5] bg-transparent border-none p-0 focus:ring-0 cursor-pointer">
+                  <option value="5">5 baris</option>
+                  <option value="10" selected>10 baris</option>
+                  <option value="25">25 baris</option>
+                  <option value="ALL">Semua Data</option>
+                </select>
+              </div>
+
+              <div class="relative min-w-[220px]">
+                <input id="mhsSearchInput" type="text" oninput="cariMahasiswa(this.value)" placeholder="Cari Nama / NIM..." 
+                       class="glass-input w-full pl-8 pr-3 py-1.5 rounded-xl text-xs font-semibold placeholder-slate-400">
+                <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><path d="m21 21-4.3-4.3" stroke-width="2"></path></svg>
+              </div>
+
+              <div class="bg-white/90 border border-slate-300 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-xs">
+                <span class="text-[10px] font-extrabold text-slate-500 uppercase">Prodi:</span>
+                <select id="filterMhsProdi" onchange="gantiFilterMhs()" class="text-xs font-bold text-[#0055A5] bg-transparent border-none p-0 focus:ring-0 cursor-pointer">
+                  <option value="ALL">Semua Prodi</option>
+                  <option value="TI">Teknik Informatika</option>
+                  <option value="SI">Sistem Informasi</option>
+                </select>
+              </div>
+            </div>
+
+            <button onclick="bukaModalPmb()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm shrink-0 cursor-pointer">
+              <span>+ Registrasi Mahasiswa Baru (PMB)</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto custom-scrollbar mt-4">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
+                  <th class="py-3 px-3">NIM</th>
+                  <th class="py-3 px-4">Nama Mahasiswa</th>
+                  <th class="py-3 px-3">Program Studi</th>
+                  <th class="py-3 px-2 text-center">Batch</th>
+                  <th class="py-3 px-2 text-center">Semester</th>
+                  <th class="py-3 px-3 text-center">Status UKT</th>
+                  <th class="py-3 px-3 text-center">Status Akademik</th>
+                  <th class="py-3 px-3 text-center">Aksi BAAK</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyMahasiswa" class="divide-y divide-white/50 font-medium text-slate-700">
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pt-4 mt-4 border-t border-white/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <span id="mhsPaginationInfo" class="text-slate-500 font-semibold">Menampilkan 0 mahasiswa</span>
+            <div id="mhsPaginationNav" class="flex items-center gap-1.5"></div>
+          </div>
+
+        </section>
+      </div>
+
+      <!-- ================= TAB 3: MASTER DOSEN ================= -->
+      <div id="tabContent-dosen" class="hidden space-y-4">
+        <section class="glass-acrylic rounded-[28px] p-6">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5 border-b border-white/60">
+            <div class="relative min-w-[240px]">
+              <input id="dosenSearchInput" type="text" oninput="cariDosen(this.value)" placeholder="Cari Nama Dosen / NIDN..." 
+                     class="glass-input w-full pl-8 pr-3 py-1.5 rounded-xl text-xs font-semibold placeholder-slate-400">
+              <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><path d="m21 21-4.3-4.3" stroke-width="2"></path></svg>
+            </div>
+
+            <button onclick="bukaModalTambahDosen()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-xs cursor-pointer shrink-0">
+              <span>+ Tambah Dosen Baru</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto custom-scrollbar mt-4">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
+                  <th class="py-3 px-3">NIDN</th>
+                  <th class="py-3 px-4">Nama Dosen &amp; Gelar</th>
+                  <th class="py-3 px-3">Homebase Prodi</th>
+                  <th class="py-3 px-3 text-center">Jabatan Fungsional</th>
+                  <th class="py-3 px-3 text-center">Status Mengajar</th>
+                  <th class="py-3 px-2 text-center">Kuota PA</th>
+                  <th class="py-3 px-3 text-center">Aksi BAAK</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDosen" class="divide-y divide-white/50 font-medium text-slate-700">
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- ================= TAB 4: KURIKULUM & MATA KULIAH ================= -->
+      <div id="tabContent-matkul" class="hidden space-y-4">
+        <section class="glass-acrylic rounded-[28px] p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/60">
+            <div>
+              <h3 class="text-base font-extrabold text-slate-900">Kurikulum &amp; Penawaran Mata Kuliah (KRS)</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Mata kuliah yang dibuka di sini langsung tersaji di halaman KRS mahasiswa</p>
+            </div>
+            
+            <button onclick="bukaModalTambahMatkul()" class="px-4 py-2.5 rounded-xl bg-[#0055A5] hover:bg-blue-800 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm shrink-0 cursor-pointer">
+              <span>+ Buka Mata Kuliah Baru</span>
+            </button>
+          </div>
+
+          <div class="relative min-w-[260px]">
+            <input id="matkulSearchInput" type="text" oninput="cariMatkul(this.value)" placeholder="Cari Kode / Nama Mata Kuliah..." 
+                   class="glass-input w-full pl-8 pr-3 py-1.5 rounded-xl text-xs font-semibold placeholder-slate-400">
+            <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><path d="m21 21-4.3-4.3" stroke-width="2"></path></svg>
+          </div>
+
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-white/60 bg-white/50 text-slate-600 font-bold uppercase text-[11px]">
+                  <th class="py-3 px-3">Kode MK</th>
+                  <th class="py-3 px-4">Nama Mata Kuliah</th>
+                  <th class="py-3 px-2 text-center">SKS</th>
+                  <th class="py-3 px-3">Sifat</th>
+                  <th class="py-3 px-4">Dosen Pengampu</th>
+                  <th class="py-3 px-3">Jadwal &amp; Ruang</th>
+                  <th class="py-3 px-3 text-center">Aksi BAAK</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyMatkul" class="divide-y divide-white/50 font-medium text-slate-700">
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL EDIT MAHASISWA ================= -->
+  <div id="modalEditMhs" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md select-none">
+    <div class="bg-white rounded-[28px] max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">✏️</span>
+          <h3 class="text-sm font-extrabold text-slate-900">Perbarui Data Mahasiswa</h3>
+        </div>
+        <button onclick="tutupModalEditMhs()" class="text-slate-400 hover:text-slate-700 text-lg cursor-pointer">&times;</button>
+      </div>
+
+      <input type="hidden" id="editMhsNimKey">
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">NIM (Terkunci)</label>
+          <input id="editMhsNimDisplay" type="text" disabled class="w-full rounded-xl bg-slate-100 border-slate-300 text-xs font-mono font-bold text-slate-500 cursor-not-allowed">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Mahasiswa</label>
+          <input id="editMhsNama" type="text" class="w-full rounded-xl border-slate-300 text-xs font-bold text-slate-800 focus:ring-[#0055A5]">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Program Studi</label>
+          <select id="editMhsProdi" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+            <option value="TI">Teknik Informatika (S1)</option>
+            <option value="SI">Sistem Informasi (S1)</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Angkatan</label>
+            <select id="editMhsBatch" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Semester</label>
+            <input id="editMhsSemester" type="number" min="1" max="14" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status Akademik</label>
+            <select id="editMhsStatus" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+              <option value="Aktif">Aktif</option>
+              <option value="Cuti">Cuti</option>
+              <option value="Lulus">Lulus</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status UKT</label>
+            <select id="editMhsUkt" class="w-full rounded-xl border-slate-300 text-xs font-bold focus:ring-[#0055A5]">
+              <option value="Belum Lunas">Belum Lunas</option>
+              <option value="Lunas">Lunas</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="tutupModalEditMhs()" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">Batal</button>
+        <button onclick="simpanPerubahanMhs()" class="flex-1 py-2.5 rounded-xl bg-[#0055A5] hover:bg-blue-800 text-white text-xs font-extrabold shadow-sm transition cursor-pointer">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL EDIT DOSEN ================= -->
+  <div id="modalEditDosen" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md select-none">
+    <div class="bg-white rounded-[28px] max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">✏️</span>
+          <h3 class="text-sm font-extrabold text-slate-900">Perbarui Data Dosen</h3>
+        </div>
+        <button onclick="tutupModalEditDosen()" class="text-slate-400 hover:text-slate-700 text-lg cursor-pointer">&times;</button>
+      </div>
+
+      <input type="hidden" id="editDosenNidnKey">
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">NIDN (Terkunci)</label>
+          <input id="editDosenNidnDisplay" type="text" disabled class="w-full rounded-xl bg-slate-100 border-slate-300 text-xs font-mono font-bold text-slate-500 cursor-not-allowed">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Lengkap &amp; Gelar</label>
+          <input id="editDosenNama" type="text" class="w-full rounded-xl border-slate-300 text-xs font-bold text-slate-800 focus:ring-indigo-600">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Homebase Prodi</label>
+          <select id="editDosenHomebase" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-indigo-600">
+            <option value="Teknik Informatika">Teknik Informatika (S1)</option>
+            <option value="Sistem Informasi">Sistem Informasi (S1)</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Jabatan Fungsional</label>
+            <select id="editDosenJabatan" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-indigo-600">
+              <option value="Asisten Ahli">Asisten Ahli</option>
+              <option value="Lektor">Lektor</option>
+              <option value="Lektor Kepala">Lektor Kepala</option>
+              <option value="Guru Besar">Guru Besar</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kuota PA</label>
+            <input id="editDosenKuota" type="text" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-indigo-600">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="tutupModalEditDosen()" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">Batal</button>
+        <button onclick="simpanPerubahanDosen()" class="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold shadow-sm transition cursor-pointer">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL TAMBAH MATKUL ================= -->
+  <div id="modalTambahMatkul" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md select-none">
+    <div class="bg-white rounded-[28px] max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📚</span>
+          <h3 class="text-sm font-extrabold text-slate-900">Buka Mata Kuliah Baru di KRS</h3>
+        </div>
+        <button onclick="tutupModalTambahMatkul()" class="text-slate-400 hover:text-slate-700 text-lg cursor-pointer">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kode MK</label>
+            <input id="inMatkulKode" type="text" placeholder="misal: IF2108" class="w-full rounded-xl border-slate-300 text-xs font-mono font-bold focus:ring-[#0055A5]">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Bobot SKS</label>
+            <select id="inMatkulSks" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+              <option value="2">2 SKS</option>
+              <option value="3" selected>3 SKS</option>
+              <option value="4">4 SKS</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Mata Kuliah</label>
+          <input id="inMatkulNama" type="text" placeholder="misal: Pemrograman Web Lanjut" class="w-full rounded-xl border-slate-300 text-xs font-bold focus:ring-[#0055A5]">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Sifat Kurikulum</label>
+            <select id="inMatkulSifat" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+              <option value="Wajib">Wajib Program Studi</option>
+              <option value="Pilihan">Pilihan Keahlian</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Dosen Pengampu</label>
+            <select id="inMatkulDosen" class="w-full rounded-xl border-slate-300 text-xs font-semibold focus:ring-[#0055A5]">
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Jadwal Kuliah</label>
+            <input id="inMatkulJadwal" type="text" placeholder="misal: Senin, 10:00 - 12:30" class="w-full rounded-xl border-slate-300 text-xs focus:ring-[#0055A5]">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Ruangan / Lab</label>
+            <input id="inMatkulRuang" type="text" placeholder="misal: Lab Komputer 02" class="w-full rounded-xl border-slate-300 text-xs focus:ring-[#0055A5]">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="tutupModalTambahMatkul()" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">Batal</button>
+        <button onclick="simpanMatkulBaru()" class="flex-1 py-2.5 rounded-xl bg-[#0055A5] hover:bg-blue-800 text-white text-xs font-extrabold shadow-sm transition cursor-pointer">Simpan &amp; Buka di KRS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL REGISTRASI PMB ================= -->
+  <div id="modalPmb" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md select-none">
+    <div class="bg-white rounded-[28px] max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🎓</span>
+          <h3 class="text-sm font-extrabold text-slate-900">Registrasi Mahasiswa Baru (PMB)</h3>
+        </div>
+        <button onclick="tutupModalPmb()" class="text-slate-400 hover:text-slate-700 text-lg cursor-pointer">&times;</button>
+      </div>
+
+      <div class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Mahasiswa</label>
+          <input id="inPmbNama" type="text" placeholder="misal: Alfian Julianto" class="w-full rounded-xl border-slate-300 text-xs focus:ring-[#0055A5]">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Program Studi</label>
+          <select id="inPmbProdi" class="w-full rounded-xl border-slate-300 text-xs focus:ring-[#0055A5]">
+            <option value="TI">Teknik Informatika (S1)</option>
+            <option value="SI">Sistem Informasi (S1)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Angkatan / Tahun Masuk</label>
+          <select id="inPmbBatch" class="w-full rounded-xl border-slate-300 text-xs focus:ring-[#0055A5]">
+            <option value="2024" selected>2024 (Semester 1 - Mahasiswa Baru)</option>
+            <option value="2023">2023</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Status Keuangan Awal</label>
+          <select id="inPmbUkt" class="w-full rounded-xl border-slate-300 text-xs font-bold focus:ring-[#0055A5]">
+            <option value="Belum Lunas" selected>Belum Lunas (KRS Terkunci Sementara)</option>
+            <option value="Lunas">Lunas (Bebas Akses KRS)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="tutupModalPmb()" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">Batal</button>
+        <button onclick="simpanMahasiswaBaru()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm transition cursor-pointer">Simpan &amp; Buat Akun</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFIKASI -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden px-4 py-3 rounded-2xl glass-acrylic border border-white shadow-2xl flex items-center gap-3 text-xs font-bold text-slate-900 animate-in slide-in-from-bottom-5">
+    <span class="text-emerald-600 text-sm">✓</span>
+    <span id="toastMsg">Data berhasil diperbarui!</span>
+  </div>
+
+  <!-- ================= JAVASCRIPT ENGINE ================= -->
+  <script>
+    const STORAGE_MHS = 'siakad_master_mahasiswa_db';
+    const STORAGE_DOSEN = 'siakad_master_dosen_db';
+    const STORAGE_MATKUL = 'siakad_master_matkul_db';
+    const STORAGE_ACTIVE_USER = 'siakad_active_user';
+
+    let mhsPage = 1;
+    let mhsLimit = 10;
+    let mhsSearch = '';
+    let matkulSearch = '';
+
+    let chartBatchInstance = null;
+    let chartStatusInstance = null;
+
+    const DEFAULT_COURSES = [
+      { kode: 'IF2104', nama: 'Sistem Basis Data', deskripsi: 'Kelas A • Database Query & Optimization', sks: 3, dosen: 'Dr. Ir. Hendra Wijaya, M.T.', jadwal: 'Senin, 13:00 - 15:30', ruang: 'Lab Data (Gd. B)', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2101', nama: 'Algoritma & Pemrograman II', deskripsi: 'Kelas A • Core Algorithm & Structures', sks: 3, dosen: 'Prof. Dr. Ir. Hendra Kusuma', jadwal: 'Senin, 08:00 - 10:30', ruang: 'Lab Komputer 01', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2102', nama: 'Sistem Operasi', deskripsi: 'Kelas B • Process & Memory Management', sks: 3, dosen: 'Dr. Aris Subagyo, M.T.', jadwal: 'Selasa, 10:00 - 12:30', ruang: 'R.302 (Gd. B)', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2103', nama: 'Rekayasa Perangkat Lunak', deskripsi: 'Kelas A • Software Lifecycle & Architecture', sks: 3, dosen: 'Dr. Aris Subagyo, M.T.', jadwal: 'Rabu, 08:00 - 10:30', ruang: 'R.204', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2105', nama: 'Arsitektur Komputer', deskripsi: 'Kelas A • CPU Microarchitecture', sks: 3, dosen: 'Ferry Sandi, S.T., M.Sc.', jadwal: 'Kamis, 08:00 - 10:30', ruang: 'Lab Hardware', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'IF2106', nama: 'Jaringan Komputer', deskripsi: 'Kelas B • Networking & Protocols', sks: 3, dosen: 'Ferry Sandi, S.T., M.Sc.', jadwal: 'Jumat, 08:00 - 10:30', ruang: 'Lab Jaringan', sifat: 'Wajib', status: 'Aktif' },
+      { kode: 'KU2001', nama: 'Etika Profesi & Komunikasi', deskripsi: 'Kelas C • Professional Ethics', sks: 2, dosen: 'Ir. Bambang Wijaya, M.T.', jadwal: 'Kamis, 13:00 - 14:40', ruang: 'R.105', sifat: 'Wajib', status: 'Aktif' }
+    ];
+
+    function inisialisasiDataAwal() {
+      if (!localStorage.getItem(STORAGE_MATKUL)) {
+        localStorage.setItem(STORAGE_MATKUL, JSON.stringify(DEFAULT_COURSES));
+      }
+
+      if (!localStorage.getItem(STORAGE_DOSEN)) {
+        const dummyDosen = [
+          { nidn: '0412087501', nama: 'Dr. Ir. Hendra Wijaya, M.T.', homebase: 'Teknik Informatika', jabatan: 'Lektor Kepala', status: 'Aktif Mengajar', kuotaPa: '8 Mahasiswa' },
+          { nidn: '0420048102', nama: 'Dr. Aris Subagyo, M.T.', homebase: 'Teknik Informatika', jabatan: 'Lektor', status: 'Aktif Mengajar', kuotaPa: '6 Mahasiswa' },
+          { nidn: '0403116801', nama: 'Prof. Dr. Ir. Hendra Kusuma', homebase: 'Teknik Informatika', jabatan: 'Guru Besar', status: 'Aktif Mengajar', kuotaPa: '10 Mahasiswa' },
+          { nidn: '0418058603', nama: 'Ferry Sandi, S.T., M.Sc.', homebase: 'Teknik Informatika', jabatan: 'Asisten Ahli', status: 'Aktif Mengajar', kuotaPa: '5 Mahasiswa' }
+        ];
+        localStorage.setItem(STORAGE_DOSEN, JSON.stringify(dummyDosen));
+      }
+
+      if (!localStorage.getItem(STORAGE_MHS)) {
+        const dummyMahasiswa = [
+          { nim: '220101001', nama: 'Ahmad Fauzi', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '230101002', nama: 'Siti Nurhaliza', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '230101003', nama: 'Dimas Anggara', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '230101004', nama: 'Fani Rahmawati', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Belum Lunas' },
+          { nim: '230101005', nama: 'Muhammad Rizki', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '230101006', nama: 'Tiara Andini', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2023', semester: 4, status: 'Cuti', ukt: 'Belum Lunas' },
+          { nim: '240101001', nama: 'Bintang Pratama', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2024', semester: 2, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '240101002', nama: 'Nadia Putri', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2024', semester: 2, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '220101010', nama: 'Farhan Hidayat', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2022', semester: 6, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '210101001', nama: 'Reza Mahendra', prodi: 'TI', prodiNama: 'Teknik Informatika', batch: '2021', semester: 8, status: 'Lulus', ukt: 'Lunas' },
+          { nim: '230201001', nama: 'Rizky Ramadhan', prodi: 'SI', prodiNama: 'Sistem Informasi', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '230201002', nama: 'Dewi Lestari', prodi: 'SI', prodiNama: 'Sistem Informasi', batch: '2023', semester: 4, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '240201001', nama: 'Galih Wicaksono', prodi: 'SI', prodiNama: 'Sistem Informasi', batch: '2024', semester: 2, status: 'Aktif', ukt: 'Lunas' },
+          { nim: '210201001', nama: 'Hendri Gunawan', prodi: 'SI', prodiNama: 'Sistem Informasi', batch: '2021', semester: 8, status: 'Lulus', ukt: 'Lunas' }
+        ];
+        localStorage.setItem(STORAGE_MHS, JSON.stringify(dummyMahasiswa));
+      }
+    }
+
+    function seederOtomatisKampus() {
+      localStorage.setItem(STORAGE_MATKUL, JSON.stringify(DEFAULT_COURSES));
+      inisialisasiDataAwal();
+      tampilkanToast('Database Kampus Berhasil Direset!');
+      muatSemuaData();
+    }
+
+    function pindahTab(namaTab) {
+      ['analitik', 'mahasiswa', 'dosen', 'matkul'].forEach(t => {
+        document.getElementById(`tabContent-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`tabBtn-${t}`);
+        btn.className = 'px-5 py-2.5 rounded-2xl font-bold text-xs transition cursor-pointer bg-white/70 text-slate-700 hover:bg-white';
+      });
+
+      document.getElementById(`tabContent-${namaTab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tabBtn-${namaTab}`);
+      activeBtn.className = 'px-5 py-2.5 rounded-2xl font-bold text-xs transition cursor-pointer bg-[#0055A5] text-white shadow-sm';
+
+      if (namaTab === 'analitik') {
+        const mhsList = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+        renderAnalitik(mhsList);
+      }
+    }
+
+    // ================= RENDER ANALITIK & CHART =================
+    function renderAnalitik(mhsList) {
+      const listMatkul = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
+
+      const totalMhs = mhsList.length;
+      const aktifCount = mhsList.filter(m => (m.status || '').toLowerCase() === 'aktif').length;
+      const cutiCount = mhsList.filter(m => (m.status || '').toLowerCase() === 'cuti').length;
+      const lulusCount = mhsList.filter(m => (m.status || '').toLowerCase() === 'lulus').length;
+
+      const lunasCount = mhsList.filter(m => (m.ukt || '').toLowerCase() === 'lunas').length;
+      const uktPercent = totalMhs > 0 ? Math.round((lunasCount / totalMhs) * 100) : 0;
+
+      document.getElementById('kpiTotalMhs').innerText = totalMhs;
+      document.getElementById('kpiAktifMhs').innerText = aktifCount;
+      document.getElementById('kpiCutiMhs').innerText = `${cutiCount} Cuti`;
+      document.getElementById('kpiLulusMhs').innerText = `${lulusCount} Lulus`;
+
+      document.getElementById('kpiUktRate').innerText = `${uktPercent}%`;
+      document.getElementById('kpiUktDetail').innerText = `${lunasCount} Mahasiswa Bebas Tagihan`;
+      document.getElementById('kpiTotalMatkul').innerText = listMatkul.length;
+
+      const batches = ['2021', '2022', '2023', '2024'];
+      const tiCounts = batches.map(b => mhsList.filter(m => m.batch === b && m.prodi === 'TI').length);
+      const siCounts = batches.map(b => mhsList.filter(m => m.batch === b && m.prodi === 'SI').length);
+
+      const canvasBar = document.getElementById('chartBatchProdi');
+      if (canvasBar) {
+        if (chartBatchInstance) chartBatchInstance.destroy();
+        chartBatchInstance = new Chart(canvasBar.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Angkatan 2021', 'Angkatan 2022', 'Angkatan 2023', 'Angkatan 2024'],
+            datasets: [
+              { label: 'Teknik Informatika (TI)', data: tiCounts, backgroundColor: '#0055A5', borderRadius: 8 },
+              { label: 'Sistem Informasi (SI)', data: siCounts, backgroundColor: '#0D9488', borderRadius: 8 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 11 } } }
+            },
+            scales: {
+              y: { beginAtZero: true, ticks: { stepSize: 2, font: { family: 'Plus Jakarta Sans' } }, grid: { color: 'rgba(226, 232, 240, 0.6)' } },
+              x: { font: { family: 'Plus Jakarta Sans', weight: 'bold' }, grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      const canvasDonut = document.getElementById('chartStatusKeaktifan');
+      if (canvasDonut) {
+        if (chartStatusInstance) chartStatusInstance.destroy();
+        chartStatusInstance = new Chart(canvasDonut.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Aktif Kuliah', 'Cuti Akademik', 'Lulus / Alumni'],
+            datasets: [{
+              data: [aktifCount, cutiCount, lulusCount],
+              backgroundColor: ['#10B981', '#F59E0B', '#3B82F6'],
+              borderWidth: 3,
+              borderColor: '#ffffff'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 11 }, padding: 14 } }
+            }
+          }
+        });
+      }
+    }
+
+    // ================= CRUD MAHASISWA DENGAN CASCADE DELETE =================
+    function bukaModalEditMhs(nim) {
+      const data = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      const mhs = data.find(m => m.nim === nim);
+      if (!mhs) return;
+
+      document.getElementById('editMhsNimKey').value = mhs.nim;
+      document.getElementById('editMhsNimDisplay').value = mhs.nim;
+      document.getElementById('editMhsNama').value = mhs.nama;
+      document.getElementById('editMhsProdi').value = mhs.prodi || 'TI';
+      document.getElementById('editMhsBatch').value = mhs.batch || '2024';
+      document.getElementById('editMhsSemester').value = mhs.semester || 1;
+      document.getElementById('editMhsStatus').value = mhs.status || 'Aktif';
+      document.getElementById('editMhsUkt').value = mhs.ukt || 'Belum Lunas';
+
+      document.getElementById('modalEditMhs').classList.remove('hidden');
+    }
+
+    function tutupModalEditMhs() {
+      document.getElementById('modalEditMhs').classList.add('hidden');
+    }
+
+    function simpanPerubahanMhs() {
+      const nim = document.getElementById('editMhsNimKey').value;
+      const nama = document.getElementById('editMhsNama').value.trim();
+      const prodi = document.getElementById('editMhsProdi').value;
+      const batch = document.getElementById('editMhsBatch').value;
+      const semester = parseInt(document.getElementById('editMhsSemester').value) || 1;
+      const status = document.getElementById('editMhsStatus').value;
+      const ukt = document.getElementById('editMhsUkt').value;
+
+      if (!nama) {
+        alert('Nama mahasiswa wajib diisi!');
+        return;
+      }
+
+      let data = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      data = data.map(m => {
+        if (m.nim === nim) {
+          return {
+            ...m,
+            nama: nama,
+            prodi: prodi,
+            prodiNama: prodi === 'TI' ? 'Teknik Informatika' : 'Sistem Informasi',
+            batch: batch,
+            semester: semester,
+            status: status,
+            ukt: ukt,
+            rombel: `${prodi}-${batch}-A`
+          };
+        }
+        return m;
+      });
+
+      localStorage.setItem(STORAGE_MHS, JSON.stringify(data));
+      localStorage.setItem(`siakad_status_ukt_${nim}`, ukt.toLowerCase().replace(' ', '_'));
+
+      try {
+        let activeUser = JSON.parse(localStorage.getItem(STORAGE_ACTIVE_USER) || 'null');
+        if (activeUser && activeUser.nim === nim) {
+          activeUser.nama = nama;
+          activeUser.prodi = prodi === 'TI' ? 'Teknik Informatika (S1)' : 'Sistem Informasi (S1)';
+          activeUser.semester = semester;
+          activeUser.ukt = ukt;
+          localStorage.setItem(STORAGE_ACTIVE_USER, JSON.stringify(activeUser));
+        }
+      } catch (e) {}
+
+      tutupModalEditMhs();
+      tampilkanToast(`Data ${nama} berhasil disimpan! Status UKT: ${ukt}`);
+      muatSemuaData();
+    }
+
+    function bukaModalPmb() { document.getElementById('modalPmb').classList.remove('hidden'); }
+    function tutupModalPmb() { document.getElementById('modalPmb').classList.add('hidden'); }
+
+    function simpanMahasiswaBaru() {
+      const nama = document.getElementById('inPmbNama').value.trim();
+      const prodi = document.getElementById('inPmbProdi').value;
+      const batch = document.getElementById('inPmbBatch').value;
+      const ukt = document.getElementById('inPmbUkt').value;
+
+      if (!nama) {
+        alert('Nama mahasiswa wajib diisi!');
+        return;
+      }
+
+      let data = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      const kodeProdi = prodi === 'TI' ? '01' : '02';
+      const tahunDuaDigit = batch.substring(2);
+      const mhsProdiBatch = data.filter(m => m.prodi === prodi && m.batch === batch);
+      const urutan = String(mhsProdiBatch.length + 1).padStart(3, '0');
+      const nimBaru = `${tahunDuaDigit}${kodeProdi}01${urutan}`;
+
+      data.push({
+        nim: nimBaru,
+        nama: nama,
+        prodi: prodi,
+        prodiNama: prodi === 'TI' ? 'Teknik Informatika' : 'Sistem Informasi',
+        batch: batch,
+        semester: 1,
+        status: 'Aktif',
+        ukt: ukt,
+        rombel: `${prodi}-${batch}-A`
+      });
+
+      localStorage.setItem(STORAGE_MHS, JSON.stringify(data));
+      localStorage.setItem(`siakad_status_ukt_${nimBaru}`, ukt.toLowerCase().replace(' ', '_'));
+
+      tutupModalPmb();
+      document.getElementById('inPmbNama').value = '';
+      tampilkanToast(`✓ Mahasiswa baru ${nama} berhasil didaftarkan! NIM: ${nimBaru}`);
+      muatSemuaData();
+    }
+
+    // CASCADE DELETE: Bersihkan juga sisa KRS, nilai, dan sesi aktif
+    function hapusMahasiswa(nim, nama) {
+      if (confirm(`Yakin mau menghapus mahasiswa ${nama} (${nim}) beserta seluruh riwayat KRS dan nilainya?`)) {
+        // 1. Hapus dari database master mahasiswa
+        let data = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+        data = data.filter(m => m.nim !== nim);
+        localStorage.setItem(STORAGE_MHS, JSON.stringify(data));
+
+        // 2. Bersihkan keranjang matkul KRS & status UKT mahasiswa tersebut
+        localStorage.removeItem(`siakad_krs_enrolled_codes_${nim}`);
+        localStorage.removeItem(`siakad_status_krs_${nim}`);
+        localStorage.removeItem(`siakad_status_ukt_${nim}`);
+
+        // 3. Bersihkan nilai mahasiswa ini dari pangkalan data nilai dosen
+        let dbNilai = JSON.parse(localStorage.getItem('siakad_db_nilai') || '[]');
+        dbNilai = dbNilai.filter(n => n.nim !== nim);
+        localStorage.setItem('siakad_db_nilai', JSON.stringify(dbNilai));
+
+        // 4. Jika akun yang dihapus sedang aktif login, bersihkan sesinya
+        try {
+          const activeUser = JSON.parse(localStorage.getItem(STORAGE_ACTIVE_USER) || '{}');
+          if (activeUser.nim === nim) {
+            localStorage.removeItem(STORAGE_ACTIVE_USER);
+          }
+        } catch (e) {}
+
+        tampilkanToast(`Mahasiswa ${nama} (${nim}) dan seluruh riwayat studinya berhasil dibersihkan!`);
+        muatSemuaData();
+      }
+    }
+
+    function cariMahasiswa(val) {
+      mhsSearch = val.toLowerCase().trim();
+      mhsPage = 1;
+      renderTabelMahasiswa();
+    }
+
+    function gantiFilterMhs() {
+      mhsPage = 1;
+      renderTabelMahasiswa();
+    }
+
+    function gantiPageSizeMhs(size) {
+      mhsLimit = size === 'ALL' ? 999999 : parseInt(size);
+      mhsPage = 1;
+      renderTabelMahasiswa();
+    }
+
+    function renderTabelMahasiswa() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      const filterP = document.getElementById('filterMhsProdi').value;
+
+      const filtered = data.filter(m => {
+        const matchP = (filterP === 'ALL' || m.prodi === filterP);
+        const matchSearch = !mhsSearch || m.nama.toLowerCase().includes(mhsSearch) || m.nim.includes(mhsSearch);
+        return matchP && matchSearch;
+      });
+
+      document.getElementById('tabCountMhs').innerText = data.length;
+
+      const totalItems = filtered.length;
+      const startIndex = (mhsPage - 1) * mhsLimit;
+      const paginated = filtered.slice(startIndex, startIndex + mhsLimit);
+
+      const tbody = document.getElementById('tbodyMahasiswa');
+      tbody.innerHTML = '';
+
+      if (paginated.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400 font-semibold">Tidak ada mahasiswa yang cocok.</td></tr>`;
+      } else {
+        paginated.forEach(m => {
+          const badgeUkt = m.ukt === 'Lunas'
+            ? '<span class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">✓ Lunas</span>'
+            : '<span class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">⚠️ Belum Lunas</span>';
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-white/40 transition';
+          tr.innerHTML = `
+            <td class="py-3 px-3 font-mono font-bold text-[#0055A5]">${m.nim}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${m.nama}</td>
+            <td class="py-3 px-3 text-slate-600 font-semibold">${m.prodiNama}</td>
+            <td class="py-3 px-2 text-center font-bold text-slate-700">${m.batch}</td>
+            <td class="py-3 px-2 text-center">Smtr ${m.semester}</td>
+            <td class="py-3 px-3 text-center">${badgeUkt}</td>
+            <td class="py-3 px-3 text-center">
+              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">${m.status}</span>
+            </td>
+            <td class="py-3 px-3 text-center">
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="bukaModalEditMhs('${m.nim}')" class="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#0055A5] border border-blue-200 transition cursor-pointer" title="Edit Mahasiswa">
+                  ✏️
+                </button>
+                <button onclick="hapusMahasiswa('${m.nim}', '${m.nama}')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition cursor-pointer" title="Hapus">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('mhsPaginationInfo').innerText = `Menampilkan ${paginated.length} dari ${totalItems} mahasiswa`;
+    }
+
+    // ================= CRUD DOSEN =================
+    function bukaModalTambahDosen() {
+      const nama = prompt('Masukkan Nama & Gelar Dosen:');
+      if (!nama) return;
+      const nidn = prompt('Masukkan NIDN:');
+      if (!nidn) return;
+
+      let list = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+      list.push({
+        nidn: nidn,
+        nama: nama,
+        homebase: 'Teknik Informatika',
+        jabatan: 'Lektor',
+        status: 'Aktif Mengajar',
+        kuotaPa: '6 Mahasiswa'
+      });
+      localStorage.setItem(STORAGE_DOSEN, JSON.stringify(list));
+      tampilkanToast(`Dosen ${nama} berhasil didaftarkan!`);
+      muatSemuaData();
+    }
+
+    function bukaModalEditDosen(nidn) {
+      const list = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+      const d = list.find(item => item.nidn === nidn);
+      if (!d) return;
+
+      document.getElementById('editDosenNidnKey').value = d.nidn;
+      document.getElementById('editDosenNidnDisplay').value = d.nidn;
+      document.getElementById('editDosenNama').value = d.nama;
+      document.getElementById('editDosenHomebase').value = d.homebase || 'Teknik Informatika';
+      document.getElementById('editDosenJabatan').value = d.jabatan || 'Lektor';
+      document.getElementById('editDosenKuota').value = d.kuotaPa || '6 Mahasiswa';
+
+      document.getElementById('modalEditDosen').classList.remove('hidden');
+    }
+
+    function tutupModalEditDosen() { document.getElementById('modalEditDosen').classList.add('hidden'); }
+
+    function simpanPerubahanDosen() {
+      const nidn = document.getElementById('editDosenNidnKey').value;
+      const nama = document.getElementById('editDosenNama').value.trim();
+      const homebase = document.getElementById('editDosenHomebase').value;
+      const jabatan = document.getElementById('editDosenJabatan').value;
+      const kuota = document.getElementById('editDosenKuota').value.trim();
+
+      let list = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+      list = list.map(d => {
+        if (d.nidn === nidn) {
+          return { ...d, nama: nama, homebase: homebase, jabatan: jabatan, kuotaPa: kuota || '6 Mahasiswa' };
+        }
+        return d;
+      });
+
+      localStorage.setItem(STORAGE_DOSEN, JSON.stringify(list));
+      tutupModalEditDosen();
+      tampilkanToast(`Data dosen ${nama} berhasil diperbarui!`);
+      muatSemuaData();
+    }
+
+    function hapusDosen(nidn, nama) {
+      if (confirm(`Hapus dosen ${nama}?`)) {
+        let list = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+        list = list.filter(d => d.nidn !== nidn);
+        localStorage.setItem(STORAGE_DOSEN, JSON.stringify(list));
+        tampilkanToast(`Dosen ${nama} dihapus.`);
+        muatSemuaData();
+      }
+    }
+
+    function cariDosen(val) {
+      const list = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+      const tbody = document.getElementById('tbodyDosen');
+      tbody.innerHTML = '';
+      const filtered = list.filter(d => d.nama.toLowerCase().includes(val.toLowerCase()) || d.nidn.includes(val));
+
+      document.getElementById('tabCountDosen').innerText = list.length;
+
+      filtered.forEach(d => {
+        tbody.innerHTML += `
+          <tr class="hover:bg-white/40 transition">
+            <td class="py-3.5 px-3 font-mono font-bold text-slate-900">${d.nidn}</td>
+            <td class="py-3.5 px-4 font-bold text-slate-900">${d.nama}</td>
+            <td class="py-3.5 px-3 text-slate-600 font-semibold">${d.homebase}</td>
+            <td class="py-3.5 px-3 text-center font-bold text-[#0055A5]">${d.jabatan}</td>
+            <td class="py-3.5 px-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">${d.status}</span></td>
+            <td class="py-3.5 px-2 text-center font-bold">${d.kuotaPa}</td>
+            <td class="py-3.5 px-3 text-center">
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="bukaModalEditDosen('${d.nidn}')" class="p-1.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200">✏️</button>
+                <button onclick="hapusDosen('${d.nidn}', '${d.nama}')" class="p-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // ================= CRUD MATA KULIAH =================
+    function bukaModalTambahMatkul() {
+      const listDosen = JSON.parse(localStorage.getItem(STORAGE_DOSEN) || '[]');
+      const selectDosen = document.getElementById('inMatkulDosen');
+      selectDosen.innerHTML = '';
+
+      listDosen.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.nama;
+        opt.innerText = `${d.nama} (${d.homebase})`;
+        selectDosen.appendChild(opt);
+      });
+
+      document.getElementById('modalTambahMatkul').classList.remove('hidden');
+    }
+
+    function tutupModalTambahMatkul() { document.getElementById('modalTambahMatkul').classList.add('hidden'); }
+
+    function simpanMatkulBaru() {
+      const kode = document.getElementById('inMatkulKode').value.trim().toUpperCase();
+      const nama = document.getElementById('inMatkulNama').value.trim();
+      const sks = parseInt(document.getElementById('inMatkulSks').value) || 3;
+      const sifat = document.getElementById('inMatkulSifat').value;
+      const dosen = document.getElementById('inMatkulDosen').value;
+      const jadwal = document.getElementById('inMatkulJadwal').value.trim() || 'Senin, 08:00 - 10:30';
+      const ruang = document.getElementById('inMatkulRuang').value.trim() || 'Lab Komputer 01';
+
+      if (!kode || !nama) {
+        alert('Kode & Nama Mata Kuliah wajib diisi!');
+        return;
+      }
+
+      let list = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
+      if (list.some(m => m.kode === kode)) {
+        alert(`Kode mata kuliah ${kode} sudah digunakan!`);
+        return;
+      }
+
+      list.push({
+        kode: kode,
+        nama: nama,
+        deskripsi: 'Kelas Reguler Baru BAAK',
+        sks: sks,
+        dosen: dosen,
+        jadwal: jadwal,
+        ruang: ruang,
+        sifat: sifat,
+        status: 'Aktif'
+      });
+
+      localStorage.setItem(STORAGE_MATKUL, JSON.stringify(list));
+      tutupModalTambahMatkul();
+      tampilkanToast(`✓ Mata kuliah ${nama} (${kode}) aktif dan siap diambil di KRS!`);
+      muatSemuaData();
+    }
+
+    function hapusMatkul(kode, nama) {
+      if (confirm(`Hapus mata kuliah ${nama} (${kode}) dari daftar penawaran KRS?`)) {
+        let list = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
+        list = list.filter(m => m.kode !== kode);
+        localStorage.setItem(STORAGE_MATKUL, JSON.stringify(list));
+        tampilkanToast(`Mata kuliah ${nama} dihapus.`);
+        muatSemuaData();
+      }
+    }
+
+    function cariMatkul(val) {
+      matkulSearch = val.toLowerCase().trim();
+      renderTabelMatkul();
+    }
+
+    function renderTabelMatkul() {
+      const list = JSON.parse(localStorage.getItem(STORAGE_MATKUL) || '[]');
+      const tbody = document.getElementById('tbodyMatkul');
+      tbody.innerHTML = '';
+
+      const filtered = list.filter(m => {
+        return !matkulSearch || m.kode.toLowerCase().includes(matkulSearch) || m.nama.toLowerCase().includes(matkulSearch);
+      });
+
+      document.getElementById('tabCountMatkul').innerText = list.length;
+      document.getElementById('kpiTotalMatkul').innerText = list.length;
+
+      filtered.forEach(m => {
+        tbody.innerHTML += `
+          <tr class="hover:bg-white/40 transition">
+            <td class="py-3 px-3 font-mono font-bold text-[#0055A5]">${m.kode}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${m.nama}</td>
+            <td class="py-3 px-2 text-center font-bold text-[#0055A5]">${m.sks} SKS</td>
+            <td class="py-3 px-3">
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${m.sifat === 'Wajib' ? 'bg-blue-100 text-[#0055A5]' : 'bg-amber-100 text-amber-800'}">
+                ${m.sifat || 'Wajib'}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-semibold text-slate-800">${m.dosen}</td>
+            <td class="py-3 px-3 text-slate-600">
+              <div>${m.jadwal || '-'}</div>
+              <span class="text-[10px] text-slate-400 font-bold">${m.ruang || 'Lab'}</span>
+            </td>
+            <td class="py-3 px-3 text-center">
+              <button onclick="hapusMatkul('${m.kode}', '${m.nama}')" class="p-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function tampilkanToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3500);
+    }
+
+    function muatSemuaData() {
+      inisialisasiDataAwal();
+      const mhsList = JSON.parse(localStorage.getItem(STORAGE_MHS) || '[]');
+      renderAnalitik(mhsList);
+      renderTabelMahasiswa();
+      cariDosen('');
+      renderTabelMatkul();
+    }
+
+    document.addEventListener('DOMContentLoaded', muatSemuaData);
+  </script>
+</body>
+</html>
